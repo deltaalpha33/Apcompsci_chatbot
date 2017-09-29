@@ -3,10 +3,12 @@ package chatbot;
 public class Chatbot {
 	private String username;
 	private boolean chatting;
-	private Topic Dimitris;
+	private Topic dimitris;
+	private Topic achilles;
+	private Topic ben;
 
 	public Chatbot() {
-		Dimitris = new ChatbotDimitris();
+		dimitris = new ChatbotDimitris();
 		username = "Unknown User";
 		chatting = true;
 	}
@@ -16,7 +18,13 @@ public class Chatbot {
 	}
 	
 	public Topic getDimitris() {
-		return this.Dimitris;
+		return this.dimitris;
+	}
+	public Topic getAchilles() {
+		return this.achilles;
+	}
+	public Topic getBen() {
+		return this.ben;
 	}
 	public void startChatting() {
 		//whenever you print or get input, use these methods
@@ -26,13 +34,23 @@ public class Chatbot {
 		while(chatting) {
 			ChatbotMain.print("What would you like to talk about?");
 			String response = ChatbotMain.getInput();
-			if(Dimitris.isTriggered(response)) {
+			if(dimitris.isTriggered(response)) {
 				this.chatting = false;
-				Dimitris.talk(response);
+				dimitris.talk(response);
 			}
-			else {
-				ChatbotMain.print("I'm sorry. I don't understand. I never said I was perfect.");
+			
+			if(achilles.isTriggered(response)) {
+				this.chatting = false;
+				achilles.talk(response);
 			}
+			
+			if(ben.isTriggered(response)) {
+				this.chatting = false;
+				ben.talk(response);
+			}
+			
+			ChatbotMain.print("I'm sorry. I don't understand. I never said I was perfect.");
+
 		}
 	}
 }
