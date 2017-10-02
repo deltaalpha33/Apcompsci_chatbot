@@ -8,7 +8,8 @@ public class ChatbotBen implements Topic
 	private String secretKeyword;
 	private String response;
 	
-	public ChatbotAchilles() {
+	public ChatbotAchilles() 
+	{
 		String[] temp = {"stuff", "things", "whatever", "nothing"};
 		keywords = temp;
 		goodbyeKeyword = "bye";
@@ -17,14 +18,19 @@ public class ChatbotBen implements Topic
 		
 	}
 	
-	public void talk(String response) {
+	public void talk(String response) 
+	{
 		ChatbotMain.print("Hey! So you want to talk about generic boring things, huh? I love talking about that.");
 		response = ChatbotMain.getInput();
-		while(!response.equals(goodbyeKeyword)) {
-			if(ChatbotMain.findKeyword(response, secretKeyword, 0)) {
+		while(!response.equals(goodbyeKeyword)) 
+		{
+			if(ChatbotMain.findKeyword(response, secretKeyword, 0) > -1) 
+			{
 				ChatbotMain.print("I can't even. I love pugs so much. Wow. You are so cool.");
 				response = ChatbotMain.getInput();
-			}else {
+			}
+			else 
+			{
 				ChatbotMain.print("Yeah. That's pretty cool. But there are things I like even more. Tell me something else");
 				response = ChatbotMain.getInput();
 			}
@@ -34,10 +40,13 @@ public class ChatbotBen implements Topic
 		ChatbotMain.chatbot.getAchilles().talk("");
 	}
 	
-	public boolean isTriggered(String response) {
-		for(int i = 0; i < keywords.length; i++) {
+	public boolean isTriggered(String response) 
+	{
+		for(int i = 0; i < keywords.length; i++) 
+		{
 			//IMPORTANT(on the rubric)
-			if(ChatbotMain.findKeyword(response, keywords[i], 0)) {
+			if(ChatbotMain.findKeyword(response, keywords[i], 0) > -1) 
+			{
 				return true;
 			}
 		}
