@@ -10,7 +10,7 @@ public class ChatbotBen implements Topic
 	
 	public ChatbotBen() 
 	{
-		String[] temp = {"pizza", "burger", "fries", "club sandwich", "fried chicken"};
+		String[] temp = {"pizza", "burger", "fries", "club sandwich", "fried chicken", "burgers", "french fries"};
 		keywords = temp;
 		goodbyeKeyword = "bye";
 		secretKeyword = "pineapple";
@@ -20,9 +20,9 @@ public class ChatbotBen implements Topic
 	
 	public void talk(String response) 
 	{
-		ChatbotMain.print("Hey! So you want to talk about generic boring things, huh? I love talking about that.");
+		ChatbotMain.print("So you like fast food, huh?");
 		response = ChatbotMain.getInput();
-		while(!response.toLowerCase().equals(goodbyeKeyword)) 
+		while(!(response.toLowerCase().equals(goodbyeKeyword))) 
 		{
 			if(ChatbotMain.findKeyword(response.toLowerCase(), secretKeyword, 0) > -1) 
 			{

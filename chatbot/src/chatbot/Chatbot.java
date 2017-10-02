@@ -9,6 +9,8 @@ public class Chatbot {
 
 	public Chatbot() {
 		dimitris = new ChatbotDimitris();
+		achilles = new ChatbotAchilles();
+		ben = new ChatbotBen();
 		username = "Unknown User";
 		chatting = true;
 	}
@@ -34,6 +36,10 @@ public class Chatbot {
 		while(chatting) {
 			ChatbotMain.print("What would you like to talk about?");
 			String response = ChatbotMain.getInput();
+			if(ben.isTriggered(response)) {
+				this.chatting = false;
+				ben.talk(response);
+			}
 			if(dimitris.isTriggered(response)) {
 				this.chatting = false;
 				dimitris.talk(response);
@@ -42,11 +48,6 @@ public class Chatbot {
 			if(achilles.isTriggered(response)) {
 				this.chatting = false;
 				achilles.talk(response);
-			}
-			
-			if(ben.isTriggered(response)) {
-				this.chatting = false;
-				ben.talk(response);
 			}
 			
 			ChatbotMain.print("I'm sorry. I don't understand. I never said I was perfect.");
