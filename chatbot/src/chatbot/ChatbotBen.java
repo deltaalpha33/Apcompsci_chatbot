@@ -10,10 +10,10 @@ public class ChatbotBen implements Topic
 	
 	public ChatbotBen() 
 	{
-		String[] temp = {"stuff", "things", "whatever", "nothing"};
+		String[] temp = {"pizza", "burger", "fries", "club sandwich", "fried chicken"};
 		keywords = temp;
 		goodbyeKeyword = "bye";
-		secretKeyword = "pug";
+		secretKeyword = "pineapple";
 		response = "";
 		
 	}
@@ -26,8 +26,8 @@ public class ChatbotBen implements Topic
 		{
 			if(ChatbotMain.findKeyword(response, secretKeyword, 0) > -1) 
 			{
-				ChatbotMain.print("I can't even. I love pugs so much. Wow. You are so cool.");
-				response = ChatbotMain.getInput();
+				ChatbotMain.print("Pineapple on pizza is a crime against humanity. We're done here.");
+				break;
 			}
 			else 
 			{
