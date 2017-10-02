@@ -19,8 +19,8 @@ public class ChatbotAchilles implements Topic{
 	public void talk(String response) {
 		ChatbotMain.print("Hey! So you want to talk about generic boring things, huh? I love talking about that.");
 		response = ChatbotMain.getInput();
-		while(!response.equals(goodbyeKeyword)) {
-			if(ChatbotMain.findKeyword(response, secretKeyword, 0)) {
+		while(!response.toLowerCase().equals(goodbyeKeyword)) {
+			if(ChatbotMain.findKeyword(response.toLowerCase(), secretKeyword, 0) > -1) {
 				ChatbotMain.print("I can't even. I love pugs so much. Wow. You are so cool.");
 				response = ChatbotMain.getInput();
 			}else {
@@ -36,7 +36,7 @@ public class ChatbotAchilles implements Topic{
 	public boolean isTriggered(String response) {
 		for(int i = 0; i < keywords.length; i++) {
 			//IMPORTANT(on the rubric)
-			if(ChatbotMain.findKeyword(response, keywords[i], 0)) {
+			if(ChatbotMain.findKeyword(response.toLowerCase(), keywords[i], 0) > -1) {
 				return true;
 			}
 		}
