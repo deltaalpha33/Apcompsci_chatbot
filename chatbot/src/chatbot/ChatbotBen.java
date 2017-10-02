@@ -6,8 +6,6 @@ public class ChatbotBen implements Topic
 	private String[] keywords;
 	private String goodbyeKeyword;
 	private String response;
-	private String likedFoods = "";
-	private String[] particularFoods = {""};
 	private boolean firstTime = true;
 	
 	public ChatbotBen() 
@@ -34,12 +32,10 @@ public class ChatbotBen implements Topic
 				ChatbotMain.print("Let me ask you - what other kinds of fast food do you like?");
 				firstTime = false;
 				response = ChatbotMain.getInput();
-				likedFoods += response;
 			}
 			else 
 			{
 				ChatbotMain.print("Yeah. That's pretty cool. But there are things I like even more. Tell me something else");
-				ChatbotMain.print(likedFoods);
 				response = ChatbotMain.getInput();
 			}
 		}
