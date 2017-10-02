@@ -8,7 +8,7 @@ public class ChatbotBen implements Topic
 	private String secretKeyword;
 	private String response;
 	
-	public ChatbotAchilles() 
+	public ChatbotBen() 
 	{
 		String[] temp = {"stuff", "things", "whatever", "nothing"};
 		keywords = temp;
