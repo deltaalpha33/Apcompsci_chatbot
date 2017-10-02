@@ -24,7 +24,7 @@ public class ChatbotBen implements Topic
 		response = ChatbotMain.getInput();
 		if (response.toLowerCase().equals("no") || !ChatbotMain.noNegations(response.toLowerCase(), 0))
 		{
-			ChatbotMain.print("Well, it was nice talking to you, " + ChatbotMain.chatbot.getUsername() + "!");
+			ChatbotMain.print("Alright, never mind that, then.");
 			ChatbotMain.chatbot.getBen().talk("");
 		}
 		while(!(response.toLowerCase().equals(goodbyeKeyword))) 
