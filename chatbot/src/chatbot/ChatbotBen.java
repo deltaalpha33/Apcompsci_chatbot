@@ -5,29 +5,33 @@ public class ChatbotBen implements Topic
 
 	private String[] keywords;
 	private String goodbyeKeyword;
-	private String secretKeyword;
 	private String response;
+	private boolean firstTime = true;
 	
 	public ChatbotBen() 
 	{
 		String[] temp = {"pizza", "burger", "fries", "club sandwich", "fried chicken", "burgers", "french fries"};
 		keywords = temp;
 		goodbyeKeyword = "bye";
-		secretKeyword = "pineapple";
 		response = "";
-		
 	}
 	
 	public void talk(String response) 
 	{
-		ChatbotMain.print("So you like fast food, huh?");
+		ChatbotMain.print("I'll need you to get (plus food, list of ingredients, and cost)");
 		response = ChatbotMain.getInput();
+		if (response.toLowerCase().equals("no") || ChatbotMain.findKeyword(response.toLowerCase(), "don't want", 0) > -1)
+		{
+			ChatbotMain.print("If you don't want to do this, we'll have to start all over.");
+			ChatbotMain.chatbot.getBen().talk("");
+		}
 		while(!(response.toLowerCase().equals(goodbyeKeyword))) 
 		{
-			if(ChatbotMain.findKeyword(response.toLowerCase(), secretKeyword, 0) > -1) 
+			if(firstTime)
 			{
-				ChatbotMain.print("Pineapple on pizza is a crime against humanity. We're done here.");
-				break;
+				ChatbotMain.print("Let me ask you - what other kinds of fast food do you like?");
+				firstTime = false;
+				response = ChatbotMain.getInput();
 			}
 			else 
 			{
@@ -35,7 +39,6 @@ public class ChatbotBen implements Topic
 				response = ChatbotMain.getInput();
 			}
 		}
-		//access variables from other classes
 		ChatbotMain.print("Well, it was nice talking to you, " + ChatbotMain.chatbot.getUsername() + "!");
 		ChatbotMain.chatbot.getBen().talk("");
 	}
