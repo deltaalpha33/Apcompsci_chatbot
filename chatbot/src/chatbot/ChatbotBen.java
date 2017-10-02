@@ -22,9 +22,9 @@ public class ChatbotBen implements Topic
 	{
 		ChatbotMain.print("Hey! So you want to talk about generic boring things, huh? I love talking about that.");
 		response = ChatbotMain.getInput();
-		while(!response.equals(goodbyeKeyword)) 
+		while(!response.toLowerCase().equals(goodbyeKeyword)) 
 		{
-			if(ChatbotMain.findKeyword(response, secretKeyword, 0) > -1) 
+			if(ChatbotMain.findKeyword(response.toLowerCase(), secretKeyword, 0) > -1) 
 			{
 				ChatbotMain.print("Pineapple on pizza is a crime against humanity. We're done here.");
 				break;
@@ -45,7 +45,7 @@ public class ChatbotBen implements Topic
 		for(int i = 0; i < keywords.length; i++) 
 		{
 			//IMPORTANT(on the rubric)
-			if(ChatbotMain.findKeyword(response, keywords[i], 0) > -1) 
+			if(ChatbotMain.findKeyword(response.toLowerCase(), keywords[i], 0) > -1) 
 			{
 				return true;
 			}
