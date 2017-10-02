@@ -36,7 +36,7 @@ public class ChatbotBen implements Topic
 			}
 		}
 		//access variables from other classes
-		ChatbotMain.print("Well, it was nice talking to you, " +ChatbotMain.chatbot.getUsername()+"!");
+		ChatbotMain.print("Well, it was nice talking to you, " + ChatbotMain.chatbot.getUsername() + "!");
 		ChatbotMain.chatbot.getAchilles().talk("");
 	}
 	
