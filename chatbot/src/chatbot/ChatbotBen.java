@@ -10,10 +10,10 @@ public class ChatbotBen implements Topic
 	
 	public ChatbotBen() 
 	{
-		String[] temp = {"stuff", "things", "whatever", "nothing"};
+		String[] temp = {"pizza", "burger", "fries", "club sandwich", "fried chicken"};
 		keywords = temp;
 		goodbyeKeyword = "bye";
-		secretKeyword = "pug";
+		secretKeyword = "pineapple";
 		response = "";
 		
 	}
@@ -22,12 +22,12 @@ public class ChatbotBen implements Topic
 	{
 		ChatbotMain.print("Hey! So you want to talk about generic boring things, huh? I love talking about that.");
 		response = ChatbotMain.getInput();
-		while(!response.equals(goodbyeKeyword)) 
+		while(!response.toLowerCase().equals(goodbyeKeyword)) 
 		{
-			if(ChatbotMain.findKeyword(response, secretKeyword, 0) > -1) 
+			if(ChatbotMain.findKeyword(response.toLowerCase(), secretKeyword, 0) > -1) 
 			{
-				ChatbotMain.print("I can't even. I love pugs so much. Wow. You are so cool.");
-				response = ChatbotMain.getInput();
+				ChatbotMain.print("Pineapple on pizza is a crime against humanity. We're done here.");
+				break;
 			}
 			else 
 			{
@@ -37,7 +37,7 @@ public class ChatbotBen implements Topic
 		}
 		//access variables from other classes
 		ChatbotMain.print("Well, it was nice talking to you, " + ChatbotMain.chatbot.getUsername() + "!");
-		ChatbotMain.chatbot.getAchilles().talk("");
+		ChatbotMain.chatbot.getBen().talk("");
 	}
 	
 	public boolean isTriggered(String response) 
@@ -45,7 +45,7 @@ public class ChatbotBen implements Topic
 		for(int i = 0; i < keywords.length; i++) 
 		{
 			//IMPORTANT(on the rubric)
-			if(ChatbotMain.findKeyword(response, keywords[i], 0) > -1) 
+			if(ChatbotMain.findKeyword(response.toLowerCase(), keywords[i], 0) > -1) 
 			{
 				return true;
 			}
