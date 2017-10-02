@@ -4,16 +4,16 @@ public class Ingredient {
 	private String name;
 	private int cost;
 	
-	Ingredient(String name, int cost){
+	public Ingredient(String name, int cost){
 		this.name = name;
 		this.cost = cost;
 	}
 	
-	String getName() {
+	public String getName() {
 		return this.name;
 	}
 	
-	int getCost() {
+	public int getCost() {
 		return this.cost;
 	}
 }
