@@ -20,7 +20,7 @@ public class ChatbotDimitris implements Topic {
 		ChatbotMain.print("Hey! So you want to talk about generic boring things, huh? I love talking about that.");
 		response = ChatbotMain.getInput();
 		while(ChatbotMain.findKeyword(response, goodbyeKeyword, 0) != -1) {
-			if(ChatbotMain.findKeyword(response, secretKeyword, 0) >= 0) {
+			if(ChatbotMain.findKeyword(response, secretKeyword, 0) > -1) {
 				ChatbotMain.print("I can't even. I love pugs so much. Wow. You are so cool.");
 				response = ChatbotMain.getInput();
 			}
