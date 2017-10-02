@@ -15,13 +15,12 @@ public class ChatbotBen implements Topic
 		String[] temp = {"pizza", "burger", "fries", "club sandwich", "fried chicken", "burgers", "french fries"};
 		keywords = temp;
 		goodbyeKeyword = "bye";
-		secretKeyword = "pineapple";
 		response = "";
 	}
 	
 	public void talk(String response) 
 	{
-		ChatbotMain.print("I'll need you to get (plus list of ingredients)");
+		ChatbotMain.print("I'll need you to get (plus food, list of ingredients, and cost)");
 		response = ChatbotMain.getInput();
 		if (response.toLowerCase().equals("no") || ChatbotMain.findKeyword(response.toLowerCase(), "don't want", 0) > -1)
 		{
@@ -59,9 +58,5 @@ public class ChatbotBen implements Topic
 			}
 		}
 		return false;
-	}
-	public String[] pickOutFoods(String s)
-	{
-		
 	}
 }
