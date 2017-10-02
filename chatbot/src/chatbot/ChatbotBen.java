@@ -22,6 +22,11 @@ public class ChatbotBen implements Topic
 	{
 		ChatbotMain.print("So you like fast food, huh?");
 		response = ChatbotMain.getInput();
+		if (response.toLowerCase().equals("no") || !ChatbotMain.noNegations(response.toLowerCase(), 0))
+		{
+			ChatbotMain.print("Well, it was nice talking to you, " + ChatbotMain.chatbot.getUsername() + "!");
+			ChatbotMain.chatbot.getBen().talk("");
+		}
 		while(!(response.toLowerCase().equals(goodbyeKeyword))) 
 		{
 			if(ChatbotMain.findKeyword(response.toLowerCase(), secretKeyword, 0) > -1) 
