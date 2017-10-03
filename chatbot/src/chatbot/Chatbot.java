@@ -2,7 +2,7 @@ package chatbot;
 
 public class Chatbot {
 	public static final Food[] foods = {};
-	public static final Ingredient[] ingrediens{};
+	public static final Ingredient[] ingredients = {};
 	private String username;
 	private boolean chatting;
 	private Topic dimitris;
