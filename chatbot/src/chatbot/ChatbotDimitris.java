@@ -2,49 +2,53 @@ package chatbot;
 
 public class ChatbotDimitris implements Topic {
 	private String[] keywords;
-	private String goodbyeKeyword;
-	private String secretKeyword;
-	private String response;
+	private String[] greetings = {"hi", "hello"};
+	private String[] finishedKeywords = {"done", "finished"};
+	private String[] positiveKeywords = {"thank", "thanks", "great", "perfect"};
+	private String response = "";
+	private boolean finished = false;
 	private Chatbot chatbot;
 	
 	public ChatbotDimitris(Chatbot chatbot) {
-		String[] temp = {"stuff", "things", "whatever", "nothing"};
-		this.keywords = temp;
-		this.goodbyeKeyword = "bye";
-		this.secretKeyword = "pug";
-		this.response = "";
 		this.chatbot = chatbot;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void talk(String response) {
-		ChatbotMain.print("Hey! So you want to talk about generic boring things, huh? I love talking about that.");
-		response = ChatbotMain.getInput();
-		while(ChatbotMain.findKeyword(response, goodbyeKeyword, 0) != -1) {
-			if(ChatbotMain.findKeyword(response, secretKeyword, 0) > -1) {
-				ChatbotMain.print("I can't even. I love pugs so much. Wow. You are so cool.");
-				response = ChatbotMain.getInput();
-			}
-			else{
-				ChatbotMain.print("Yeah. That's pretty cool. But there are things even more. Tell me something.else");
-				response = ChatbotMain.getInput();
-			}
+		ChatbotMain.print("Hello this is "  + Chatbot.name + ". Welcome to my interactive terminal. Let us begin with selectin the foods you wish to eat");
+		this.response = ChatbotMain.getInput();
+		this.finished = this.findKeywords(this.finishedKeywords);
+		while(!this.finished) {
+			if())
+
+
+			ChatbotMain.print("have you selected all of your foods?");
+			this.finished = this.findKeywords(this.finishedKeywords) || this.findKeywords(this.positiveKeywords);
 		}
 		//acces variables from other classes
-		ChatbotMain.print("thanks for chatting");
+		ChatbotMain.print("YOU HAVE SELECTED ALL YOUR INGREDIENTS :)");
 		ChatbotMain.chatbot.startChatting();
 	}
 	
 	public boolean isTriggered(String response) {
 		for(int i = 0 ; i < this.keywords.length; i++) {
 			//Important on Rubric
-			if(ChatbotMain.findKeyword(response, keywords[i], 0) >= 0) {
+			this.response = response;
+			if(this.findKeywords(this.greetings)) {
 				return true;
 			}
 		}
 		return false;
 	
+	}
+	
+	public boolean findKeywords(String[] keywords) {
+		for(int i = 0; i < keywords.length; i++) {
+			if(ChatbotMain.findKeyword(this.response, keywords[i], 0) > -1) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 
