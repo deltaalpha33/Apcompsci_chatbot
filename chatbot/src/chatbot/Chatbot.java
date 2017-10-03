@@ -9,6 +9,10 @@ public class Chatbot {
 	private Food[] foodList;
 	private boolean foodSelected = false;
 	
+	public boolean isFoodPurchased() {
+		return this.foodPurchased;
+	}
+	
 	public Food[] getFoodList() {
 		return this.foodList;
 	}
@@ -25,14 +29,11 @@ public class Chatbot {
 		this.foodSelected = foodSelected;
 	}
 
-	public boolean isFoodPurchaed() {
-		return this.foodPurchaed;
-	}
 
-	public void setFoodPurchaed(boolean foodPurchaed) {
-		this.foodPurchaed = foodPurchaed;
+	public void setFoodPurchased(boolean foodPurchased) {
+		this.foodPurchased = foodPurchased;
 	}
-	private boolean foodPurchaed = false;
+	private boolean foodPurchased = false;
 
 	public Chatbot() {
 		dimitris = new ChatbotDimitris(this);

@@ -9,7 +9,7 @@ public class ChatbotBen implements Topic
 	private boolean firstTime = true;
 	private String[] noKeywords;
 	
-	public ChatbotBen() 
+	public ChatbotBen(Chatbot chatbot) 
 	{
 		String[] temp = {"ingredients", "components", "cost"};
 		String[] noKeywords = {"rather not", "don't want", "not really"};
