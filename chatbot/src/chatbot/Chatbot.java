@@ -45,13 +45,10 @@ public class Chatbot {
 		chatting = true;
 		Ingredient tempingredient = new Ingredient("meatballs", (float)6.99);
 		KitchenUtensil temputensil = new KitchenUtensil("Spatula");
-		Ingredient[] tempilist = {};
-		tempilist[0] = tempingredient;
-		KitchenUtensil[] tempklist = {};
-		tempklist[0] = temputensil;
+		Ingredient[] tempilist = {tempingredient};
+		KitchenUtensil[] tempklist = {temputensil};
 		Food tempfood = new Food("pasta", tempilist, tempklist);
-		Food[] tempflist = {};
-		tempflist[0] = tempfood;
+		Food[] tempflist = {tempfood};
 		this.setFoodList(tempflist);
 	}
 	
