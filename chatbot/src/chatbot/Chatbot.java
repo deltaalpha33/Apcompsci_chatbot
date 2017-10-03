@@ -38,11 +38,6 @@ public class Chatbot {
 	private boolean foodPurchased = false;
 
 	public Chatbot() {
-		dimitris = new ChatbotDimitris(this);
-		achilles = new ChatbotAchilles();
-		ben = new ChatbotBen(this);
-		username = "Unknown User";
-		chatting = true;
 		Ingredient tempingredient = new Ingredient("meatballs", (float)6.99);
 		KitchenUtensil temputensil = new KitchenUtensil("Spatula");
 		Ingredient[] tempilist = {tempingredient};
@@ -50,6 +45,11 @@ public class Chatbot {
 		Food tempfood = new Food("pasta", tempilist, tempklist);
 		Food[] tempflist = {tempfood};
 		this.setFoodList(tempflist);
+		ben = new ChatbotBen(this);
+		dimitris = new ChatbotDimitris(this);
+		achilles = new ChatbotAchilles();
+		username = "Unknown User";
+		chatting = true;
 	}
 	
 	public String getUsername() {
