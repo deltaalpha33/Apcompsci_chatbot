@@ -2,7 +2,7 @@ package chatbot;
 
 public class Ingredient {
 	private String name;
-	private int cost;
+	private float cost;
 	
 	public Ingredient(String name, int cost){
 		this.name = name;
@@ -13,7 +13,7 @@ public class Ingredient {
 		return this.name;
 	}
 	
-	public int getCost() {
+	public float getCost() {
 		return this.cost;
 	}
 }

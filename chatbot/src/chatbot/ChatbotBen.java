@@ -6,21 +6,24 @@ public class ChatbotBen implements Topic
 	private String[] keywords;
 	private String goodbyeKeyword;
 	private String response;
-	private boolean firstTime = true;
 	private String[] noKeywords;
+	private Chatbot info;
+	private Food[] food;
 	
 	public ChatbotBen(Chatbot chatbot) 
 	{
 		String[] temp = {"ingredients", "components", "cost"};
 		String[] noKeywords = {"rather not", "don't want", "not really"};
+		info = chatbot;
+		food = info.getFoodList();
 		keywords = temp;
 		goodbyeKeyword = "bye";
 		response = "";
 	}
-	// 
+
 	public void talk(String response) 
 	{
-		ChatbotMain.print("So you wanna make (food), huh? You're gonna need to get some ingredients first. (ingredients). It'll cost you (cost).");
+		ChatbotMain.print("So you wanna make " + food[0].getName() + ", huh? You're gonna need to get some ingredients first. " + food[0].getIngredients() + ". It'll cost you " + getTotalCost(food[0].getIngredients()) + ". You're also going to need " + food[0].getCookingTools() + "to make it");
 		response = ChatbotMain.getInput();
 		if (response.toLowerCase().equals("no") || !(interested(response.toLowerCase(), this.noKeywords)))
 		{
@@ -29,17 +32,8 @@ public class ChatbotBen implements Topic
 		}
 		while(!(response.toLowerCase().equals(goodbyeKeyword))) 
 		{
-			if(firstTime)
-			{
-				ChatbotMain.print("Let me ask you - what other kinds of fast food do you like?");
-				firstTime = false;
-				response = ChatbotMain.getInput();
-			}
-			else 
-			{
 				ChatbotMain.print("Yeah. That's pretty cool. But there are things I like even more. Tell me something else");
 				response = ChatbotMain.getInput();
-			}
 		}
 		ChatbotMain.print("Well, it was nice talking to you, " + ChatbotMain.chatbot.getUsername() + "!");
 		ChatbotMain.chatbot.getBen().talk("");
@@ -67,5 +61,16 @@ public class ChatbotBen implements Topic
 			}
 		}
 		return true;
+	}
+	public float getTotalCost(Ingredient[] ingredientList)
+	{
+		float finalCost = 0;
+		
+		for (int i = 0; i < ingredientList.length; i += 1)
+		{
+			finalCost += ingredientList[i].getCost();
+		}
+		
+		return finalCost;
 	}
 }
