@@ -24,7 +24,7 @@ public class KitchenUtensil {
 	public void setName(String name) {
 		this.name = name;
 	}
-	KitchenUtensil(String name){
+	public KitchenUtensil(String name){
 		this.name = name;
 	}
 }
