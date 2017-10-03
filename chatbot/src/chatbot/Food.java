@@ -5,9 +5,10 @@ public class Food {
 	private Ingredient[] ingredients;
 	private KitchenUtensil[] cookingTools;
 	
-	public Food(String name, Ingredient[] ingredients) {
+	public Food(String name, Ingredient[] ingredients, KitchenUtensil[] cookingTools) {
 		this.name = name;
 		this.ingredients = ingredients;
+		this.cookingTools = cookingTools;
 	}
 	public String getName() {
 		return this.name;

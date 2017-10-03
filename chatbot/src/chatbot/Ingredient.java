@@ -4,7 +4,7 @@ public class Ingredient {
 	private String name;
 	private float cost;
 	
-	public Ingredient(String name, int cost){
+	public Ingredient(String name, float cost){
 		this.name = name;
 		this.cost = cost;
 	}
