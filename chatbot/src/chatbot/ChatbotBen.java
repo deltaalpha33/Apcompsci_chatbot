@@ -48,7 +48,7 @@ public class ChatbotBen implements Topic
 				response = ChatbotMain.getInput();
 		}
 		ChatbotMain.print("Well, it was nice talking to you, " + ChatbotMain.chatbot.getUsername() + "!");
-		ChatbotMain.chatbot.getBen().talk("");
+		return;
 	}
 	
 	public boolean isTriggered(String response) 
