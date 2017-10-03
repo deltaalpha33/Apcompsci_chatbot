@@ -6,11 +6,38 @@ public class Chatbot {
 	private Topic dimitris;
 	private Topic achilles;
 	private Topic ben;
+	private Food[] foodList;
+	private boolean foodSelected = false;
+	
+	public Food[] getFoodList() {
+		return this.foodList;
+	}
+
+	public void setFoodList(Food[] foodList) {
+		this.foodList = foodList;
+	}
+
+	public boolean isFoodSelected() {
+		return this.foodSelected;
+	}
+
+	public void setFoodSelected(boolean foodSelected) {
+		this.foodSelected = foodSelected;
+	}
+
+	public boolean isFoodPurchaed() {
+		return this.foodPurchaed;
+	}
+
+	public void setFoodPurchaed(boolean foodPurchaed) {
+		this.foodPurchaed = foodPurchaed;
+	}
+	private boolean foodPurchaed = false;
 
 	public Chatbot() {
-		dimitris = new ChatbotDimitris();
+		dimitris = new ChatbotDimitris(this);
 		achilles = new ChatbotAchilles();
-		ben = new ChatbotBen();
+		ben = new ChatbotBen(this);
 		username = "Unknown User";
 		chatting = true;
 	}

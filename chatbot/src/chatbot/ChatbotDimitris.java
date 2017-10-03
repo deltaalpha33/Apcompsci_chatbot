@@ -5,13 +5,15 @@ public class ChatbotDimitris implements Topic {
 	private String goodbyeKeyword;
 	private String secretKeyword;
 	private String response;
+	private Chatbot chatbot;
 	
-	public ChatbotDimitris() {
+	public ChatbotDimitris(Chatbot chatbot) {
 		String[] temp = {"stuff", "things", "whatever", "nothing"};
 		this.keywords = temp;
 		this.goodbyeKeyword = "bye";
 		this.secretKeyword = "pug";
 		this.response = "";
+		this.chatbot = chatbot;
 		// TODO Auto-generated constructor stub
 	}
 
