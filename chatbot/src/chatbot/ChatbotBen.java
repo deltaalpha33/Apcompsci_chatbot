@@ -7,20 +7,22 @@ public class ChatbotBen implements Topic
 	private String goodbyeKeyword;
 	private String response;
 	private boolean firstTime = true;
+	private String[] noKeywords;
 	
-	public ChatbotBen() 
+	public ChatbotBen(Chatbot chatbot) 
 	{
-		String[] temp = {"pizza", "burger", "fries", "club sandwich", "fried chicken", "burgers", "french fries"};
+		String[] temp = {"ingredients", "components", "cost"};
+		String[] noKeywords = {"rather not", "don't want", "not really"};
 		keywords = temp;
 		goodbyeKeyword = "bye";
 		response = "";
 	}
-	
+	// 
 	public void talk(String response) 
 	{
-		ChatbotMain.print("I'll need you to get (plus food, list of ingredients, and cost)");
+		ChatbotMain.print("So you wanna make (food), huh? You're gonna need to get some ingredients first. (ingredients). It'll cost you (cost).");
 		response = ChatbotMain.getInput();
-		if (response.toLowerCase().equals("no") || ChatbotMain.findKeyword(response.toLowerCase(), "don't want", 0) > -1)
+		if (response.toLowerCase().equals("no") || !(interested(response.toLowerCase(), this.noKeywords)))
 		{
 			ChatbotMain.print("If you don't want to do this, we'll have to start all over.");
 			ChatbotMain.chatbot.getBen().talk("");
@@ -54,5 +56,16 @@ public class ChatbotBen implements Topic
 			}
 		}
 		return false;
+	}
+	public boolean interested(String s, String[] noKeywords)
+	{
+		for (int i = 0; i < s.length(); i += 1)
+		{
+			if (ChatbotMain.findKeyword(response.toLowerCase(), noKeywords[i], 0) > -1)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 }
