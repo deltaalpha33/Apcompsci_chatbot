@@ -17,7 +17,7 @@ public class ChatbotBen implements Topic
 		goodbyeKeyword = "bye";
 		response = "";
 	}
-	
+	// 
 	public void talk(String response) 
 	{
 		ChatbotMain.print("So you wanna make (food), huh? You're gonna need to get some ingredients first. (ingredients). It'll cost you (cost).");
