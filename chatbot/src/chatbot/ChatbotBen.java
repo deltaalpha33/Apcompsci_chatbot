@@ -2,7 +2,10 @@ package chatbot;
 
 public class ChatbotBen implements Topic 
 {
-
+	private static final int INGREDIENT_NAMES = 0;
+	private static final int TOOLS_NAMES = 1;
+	private static final int BOTH_NAMES = 2;
+	
 	private String[] keywords;
 	private String goodbyeKeyword;
 	private String response;
@@ -89,11 +92,34 @@ public class ChatbotBen implements Topic
 				{
 					if (ChatbotMain.findKeyword(s.toLowerCase(), requestTypes[o], 0) > -1)
 					{
+						
 						return requestTypes[o];
 					}
 				}
 			}
 		}
 		return "";
+	}
+	public void printNames(int namesToPrint)
+	{
+		if (namesToPrint == INGREDIENT_NAMES)
+		{
+			for (int i = 0; i < food[0].getIngredients().length; i += 1)
+			{
+				ChatbotMain.print(food[0].getIngredients()[i].getName());
+			}
+		}
+		else if (namesToPrint == TOOLS_NAMES)
+		{
+			for (int i = 0; i < food[0].getCookingTools().length; i += 1)
+			{
+				ChatbotMain.print(food[0].getCookingTools()[i].getName());
+			}
+		}
+		else if (namesToPrint == BOTH_NAMES)
+		{
+			printNames(INGREDIENT_NAMES);
+			printNames(TOOLS_NAMES);
+		}
 	}
 }
