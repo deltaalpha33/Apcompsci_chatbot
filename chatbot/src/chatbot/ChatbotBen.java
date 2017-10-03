@@ -9,24 +9,21 @@ public class ChatbotBen implements Topic
 	private String[] keywords;
 	private String goodbyeKeyword;
 	private String response;
-	private String[] noKeywords;
+	private String[] noKeywords = {"rather not", "don't want", "not really"};
 	private Chatbot info;
 	private Food[] food;
 	private int requestCount;
-	private String[] requestTerms;
-	private String[] requestTypes;
+	String[] requestTerms = {"show me", "tell me"};
+	String[] requestTypes = {"ingredient", "tools", "utensils"};
 	
 	public ChatbotBen(Chatbot chatbot) 
 	{
 		String[] temp = {"ingredients", "components", "cost"};
-		String[] noKeywords = {"rather not", "don't want", "not really"};
 		info = chatbot;
 		keywords = temp;
 		goodbyeKeyword = "bye";
 		response = "";
 		requestCount = 0;
-		String[] requestTerms = {"show me", "tell me"};
-		String[] requestTypes = {"ingredient", "tools", "utensils"};
 	}
 
 	public void talk(String response) 
@@ -51,7 +48,7 @@ public class ChatbotBen implements Topic
 				response = ChatbotMain.getInput();
 		}
 		ChatbotMain.print("Well, it was nice talking to you, " + ChatbotMain.chatbot.getUsername() + "!");
-		ChatbotMain.chatbot.getBen().talk("");
+		return;
 	}
 	
 	public boolean isTriggered(String response) 
