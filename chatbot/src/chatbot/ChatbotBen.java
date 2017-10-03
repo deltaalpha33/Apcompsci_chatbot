@@ -20,7 +20,7 @@ public class ChatbotBen implements Topic
 		goodbyeKeyword = "bye";
 		response = "";
 	}
-
+	// 
 	public void talk(String response) 
 	{
 		ChatbotMain.print("So you wanna make " + food[0].getName() + ", huh? You're gonna need to get some ingredients first. " + food[0].getIngredients() + ". It'll cost you " + getTotalCost(food[0].getIngredients()) + ". You're also going to need " + food[0].getCookingTools() + "to make it");
