@@ -21,7 +21,6 @@ public class ChatbotBen implements Topic
 		String[] temp = {"ingredients", "components", "cost"};
 		String[] noKeywords = {"rather not", "don't want", "not really"};
 		info = chatbot;
-		food = info.getFoodList();
 		keywords = temp;
 		goodbyeKeyword = "bye";
 		response = "";
@@ -32,6 +31,7 @@ public class ChatbotBen implements Topic
 
 	public void talk(String response) 
 	{
+		food = info.getFoodList();
 		ChatbotMain.print("So you wanna make " + food[0].getName() + ", huh? You're gonna need to get some ingredients first. It'll cost you " + getTotalCost(food[0].getIngredients()) + ". You're also going to need some cooking tools to make it. Feel free to ask for the ingredients and tools at any time.");
 		response = ChatbotMain.getInput();
 		if (response.toLowerCase().equals("no") || !(interested(response.toLowerCase(), this.noKeywords)))
