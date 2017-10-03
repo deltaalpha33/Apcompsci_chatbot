@@ -9,6 +9,9 @@ public class ChatbotBen implements Topic
 	private String[] noKeywords;
 	private Chatbot info;
 	private Food[] food;
+	private int requestCount;
+	private String[] requestTerms;
+	private String[] requestTypes;
 	
 	public ChatbotBen(Chatbot chatbot) 
 	{
@@ -19,11 +22,14 @@ public class ChatbotBen implements Topic
 		keywords = temp;
 		goodbyeKeyword = "bye";
 		response = "";
+		requestCount = 0;
+		String[] requestTerms = {"show me", "tell me"};
+		String[] requestTypes = {"ingredient", "tools", "utensils"};
 	}
-	// 
+
 	public void talk(String response) 
 	{
-		ChatbotMain.print("So you wanna make " + food[0].getName() + ", huh? You're gonna need to get some ingredients first. " + food[0].getIngredients() + ". It'll cost you " + getTotalCost(food[0].getIngredients()) + ". You're also going to need " + food[0].getCookingTools() + "to make it");
+		ChatbotMain.print("So you wanna make " + food[0].getName() + ", huh? You're gonna need to get some ingredients first. It'll cost you " + getTotalCost(food[0].getIngredients()) + ". You're also going to need some cooking tools to make it. Feel free to ask for the ingredients and tools at any time.");
 		response = ChatbotMain.getInput();
 		if (response.toLowerCase().equals("no") || !(interested(response.toLowerCase(), this.noKeywords)))
 		{
@@ -53,9 +59,9 @@ public class ChatbotBen implements Topic
 	}
 	public boolean interested(String s, String[] noKeywords)
 	{
-		for (int i = 0; i < s.length(); i += 1)
+		for (int i = 0; i < noKeywords.length; i += 1)
 		{
-			if (ChatbotMain.findKeyword(response.toLowerCase(), noKeywords[i], 0) > -1)
+			if (ChatbotMain.findKeyword(s.toLowerCase(), noKeywords[i], 0) > -1)
 			{
 				return false;
 			}
@@ -72,5 +78,22 @@ public class ChatbotBen implements Topic
 		}
 		
 		return finalCost;
+	}
+	public String typeOfRequest(String s)
+	{
+		for (int i = 0; i < requestTerms.length; i += 1)
+		{
+			if (ChatbotMain.findKeyword(s.toLowerCase(), requestTerms[i], 0) > -1)
+			{
+				for (int o = 0; i < requestTypes.length; o += 1)
+				{
+					if (ChatbotMain.findKeyword(s.toLowerCase(), requestTypes[o], 0) > -1)
+					{
+						return requestTypes[o];
+					}
+				}
+			}
+		}
+		return "";
 	}
 }
