@@ -71,24 +71,25 @@ public class Chatbot {
 		ChatbotMain.print("Hi! I am an intelligent machine that can respond to your input. Tell me your name.");
 		username = ChatbotMain.getInput();
 		
-		while(chatting) {
+		while(true) {
 			ChatbotMain.print("What would you like to talk about?");
 			String response = ChatbotMain.getInput();
-			if(ben.isTriggered(response)) {
-				this.chatting = false;
-				ben.talk(response);
-			}
+			
 			if(dimitris.isTriggered(response)) {
-				this.chatting = false;
 				dimitris.talk(response);
+			}else {
+				if(ben.isTriggered(response)) {
+					ben.talk(response);
+				}else {
+					if(achilles.isTriggered(response)) {
+						achilles.talk(response);
+					}
+					else {
+						ChatbotMain.print("I'm sorry. I don't understand. I never said I was perfect.");
+					}
+				}
 			}
 			
-			if(achilles.isTriggered(response)) {
-				this.chatting = false;
-				achilles.talk(response);
-			}
-			
-			ChatbotMain.print("I'm sorry. I don't understand. I never said I was perfect.");
 
 		}
 	}
