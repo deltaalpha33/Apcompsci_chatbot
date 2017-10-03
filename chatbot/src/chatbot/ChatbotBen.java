@@ -39,9 +39,15 @@ public class ChatbotBen implements Topic
 			ChatbotMain.print("If you don't want to do this, we'll have to start all over.");
 			ChatbotMain.chatbot.getBen().talk("");
 		}
+		if (typeOfRequest(response.toLowerCase()).length() > 0)
+		{
+			requestCount += 1;
+			// just to test:
+			ChatbotMain.print(typeOfRequest(response.toLowerCase()));
+		}
 		while(!(response.toLowerCase().equals(goodbyeKeyword))) 
 		{
-				ChatbotMain.print("Yeah. That's pretty cool. But there are things I like even more. Tell me something else");
+				ChatbotMain.print("Tell me what the deal is.");
 				response = ChatbotMain.getInput();
 		}
 		ChatbotMain.print("Well, it was nice talking to you, " + ChatbotMain.chatbot.getUsername() + "!");
