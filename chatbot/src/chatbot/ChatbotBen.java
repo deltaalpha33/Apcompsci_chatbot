@@ -13,8 +13,8 @@ public class ChatbotBen implements Topic
 	private Chatbot info;
 	private Food[] food;
 	private int requestCount;
-	String[] requestTerms = {"show me", "tell me", "i need to know", "what are the", "do i need", "do i have to"};
-	String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "both"};
+	String[] requestTerms = {"show me", "tell me", "need to know", "what are the", "do i need", "do i have to", "want to know"};
+	String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "both", "everything"};
 	
 	public ChatbotBen(Chatbot chatbot) 
 	{
@@ -36,19 +36,19 @@ public class ChatbotBen implements Topic
 			if (typeOfRequest(response.toLowerCase()).length() > 0)
 			{
 				requestCount += 1;
-				// just to test:
-				ChatbotMain.print(typeOfRequest(response.toLowerCase()));
 				if (typeOfRequest(response.toLowerCase()).equals("ingredient") || typeOfRequest(response.toLowerCase()).equals("ingredients"))
 				{
-					ChatbotMain.print("The ingredients you still need are ");
+					ChatbotMain.print("The ingredients you still need are:");
 					this.printNames(0);
 				}
 				else if (typeOfRequest(response.toLowerCase()).equals("tools") || typeOfRequest(response.toLowerCase()).equals("utensils"))
 				{
+					ChatbotMain.print("For cooking utensils, you still need the following:");
 					this.printNames(1);
 				}
-				else if (typeOfRequest(response.toLowerCase()).equals("both"))
+				else if (typeOfRequest(response.toLowerCase()).equals("both") || typeOfRequest(response.toLowerCase()).equals("everything"))
 				{
+					ChatbotMain.print("Here's everything you still need:");
 					this.printNames(2);
 				}
 				else
