@@ -17,6 +17,7 @@ public class ChatbotBen implements Topic
 	private String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "both", "everything"};
 	private String[] requestResponses = {"You better get going", "Why do you keep asking?", "Maybe if you stopped asking and went out and got stuff, you would be done by now.", "Do you have amnesia or something?"};
 	private String[] normalResponses = {"Tell me what the deal is.", "What's up?", "You need anything?", "What's the deal?", "You got a question or something?", "Need anything?"};
+	private String[] finishedTerms = {"finished", "got", "found", "bought", "purchased"};
 	
 	public ChatbotBen(Chatbot chatbot) 
 	{
@@ -131,6 +132,25 @@ public class ChatbotBen implements Topic
 			}
 		}
 		return "";
+	}
+	public String typeOfFinish(String s)
+	{
+		String finalString = "";
+		for (int i = 0; i < finishedTerms.length; i += 1)
+		{
+			if (ChatbotMain.findKeyword(s.toLowerCase(), finishedTerms[i], 0) > -1)
+			{
+				for (int o = 0; o < food[0].getIngredients().length; o += 1)
+				{
+					finalString += (food[0].getIngredients()[o].getName());
+				}
+				for (int p = 0; p < food[0].getCookingTools().length; p += 1)
+				{
+					finalString += (food[0].getCookingTools()[p].getName());
+				}
+			}
+		}
+		return finalString;
 	}
 	public void printNames(int namesToPrint)
 	{
