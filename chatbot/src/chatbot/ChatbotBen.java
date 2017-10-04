@@ -13,7 +13,7 @@ public class ChatbotBen implements Topic
 	private Chatbot info;
 	private Food[] food;
 	private int requestCount;
-	String[] requestTerms = {"show me", "tell me", "i need to know"};
+	String[] requestTerms = {"show me", "tell me", "i need to know", "what are the", "do i need", "do i have to"};
 	String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "list"};
 	
 	public ChatbotBen(Chatbot chatbot) 
