@@ -13,12 +13,13 @@ public class ChatbotBen implements Topic
 	private Chatbot info;
 	private Food[] food;
 	private int requestCount;
-	String[] requestTerms = {"show me", "tell me", "need to know", "what are the", "do i need", "do i have to", "want to know"};
-	String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "both", "everything"};
+	private String[] requestTerms = {"show me", "tell me", "need to know", "what are the", "do i need", "do i have to", "want to know"};
+	private String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "both", "everything"};
+	private String[] requestResponses = {"You better get going", "Why do you keep asking?", "Maybe if you stopped asking and went out and got stuff, you would be done by now.", "Do you have amnesia or something?"};
 	
 	public ChatbotBen(Chatbot chatbot) 
 	{
-		String[] temp = {"ingredients", "components", "cost"};
+		String[] temp = {"ingredients", "components", "cost", "tools", "utensils"};
 		info = chatbot;
 		keywords = temp;
 		goodbyeKeyword = "bye";
@@ -36,6 +37,11 @@ public class ChatbotBen implements Topic
 			if (typeOfRequest(response.toLowerCase()).length() > 0)
 			{
 				requestCount += 1;
+				if (requestCount > 5)
+				{
+					int rnd = (int)Math.random() * (3) + 1;
+					ChatbotMain.print(requestResponses[rnd]);
+				}
 				if (typeOfRequest(response.toLowerCase()).equals("ingredient") || typeOfRequest(response.toLowerCase()).equals("ingredients"))
 				{
 					ChatbotMain.print("The ingredients you still need are:");
@@ -54,6 +60,7 @@ public class ChatbotBen implements Topic
 				else
 				{
 					ChatbotMain.print("Be more specific. What do you want to know, again?");
+					continue;
 				}
 			}
 			if (response.toLowerCase().equals("no") || !(interested(response.toLowerCase(), this.noKeywords)))
