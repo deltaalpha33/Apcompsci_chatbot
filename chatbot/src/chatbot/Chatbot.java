@@ -11,6 +11,7 @@ public class Chatbot {
 	private Topic ben;
 	private Food[] foodList;
 	private boolean foodSelected = false;
+	//private List<Food> foodHistory =
 	
 	public boolean isFoodPurchased() {
 		return this.foodPurchased;
@@ -79,19 +80,16 @@ public class Chatbot {
 			
 			if(dimitris.isTriggered(response)) {
 				dimitris.talk(response);
-			}else {
-				if(ben.isTriggered(response)) {
-					ben.talk(response);
-				}else {
-					if(achilles.isTriggered(response)) {
-						achilles.talk(response);
-					}
-					else {
-						ChatbotMain.print("I'm sorry. I don't understand. I never said I was perfect.");
-					}
-				}
 			}
-			
+			else if(ben.isTriggered(response)) {
+					ben.talk(response);
+			}
+			else if (achilles.isTriggered(response)) {
+						achilles.talk(response);
+			}
+			else {
+						ChatbotMain.print("I'm sorry. I don't understand. I never said I was perfect.");
+			}
 
 		}
 	}
