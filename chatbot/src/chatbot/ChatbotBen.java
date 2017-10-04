@@ -14,7 +14,7 @@ public class ChatbotBen implements Topic
 	private Food[] food;
 	private int requestCount;
 	String[] requestTerms = {"show me", "tell me", "i need to know", "what are the", "do i need", "do i have to"};
-	String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "list"};
+	String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "both"};
 	
 	public ChatbotBen(Chatbot chatbot) 
 	{
@@ -38,6 +38,23 @@ public class ChatbotBen implements Topic
 				requestCount += 1;
 				// just to test:
 				ChatbotMain.print(typeOfRequest(response.toLowerCase()));
+				if (typeOfRequest(response.toLowerCase()).equals("ingredient") || typeOfRequest(response.toLowerCase()).equals("ingredients"))
+				{
+					ChatbotMain.print("The ingredients you still need are ");
+					this.printNames(0);
+				}
+				else if (typeOfRequest(response.toLowerCase()).equals("tools") || typeOfRequest(response.toLowerCase()).equals("utensils"))
+				{
+					this.printNames(1);
+				}
+				else if (typeOfRequest(response.toLowerCase()).equals("both"))
+				{
+					this.printNames(2);
+				}
+				else
+				{
+					ChatbotMain.print("Be more specific. What do you want to know, again?");
+				}
 			}
 			if (response.toLowerCase().equals("no") || !(interested(response.toLowerCase(), this.noKeywords)))
 			{
@@ -100,6 +117,7 @@ public class ChatbotBen implements Topic
 						return requestTypes[o];
 					}
 				}
+				return "what";
 			}
 		}
 		return "";
