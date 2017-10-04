@@ -13,9 +13,10 @@ public class ChatbotBen implements Topic
 	private Chatbot info;
 	private Food[] food;
 	private int requestCount;
-	private String[] requestTerms = {"show me", "tell me", "need to know", "what are the", "do i need", "do i have to", "want to know"};
+	private String[] requestTerms = {"show me", "tell me", "need to know", "what are the", "do i need", "do i have to", "want to know", "give me"};
 	private String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "both", "everything"};
 	private String[] requestResponses = {"You better get going", "Why do you keep asking?", "Maybe if you stopped asking and went out and got stuff, you would be done by now.", "Do you have amnesia or something?"};
+	private String[] normalResponses = {"Tell me what the deal is.", "What's up?", "You need anything?", "What's the deal?", "You got a question or something?", "Need anything?"};
 	
 	public ChatbotBen(Chatbot chatbot) 
 	{
@@ -42,17 +43,17 @@ public class ChatbotBen implements Topic
 					int rnd = (int)(Math.random() * (5));
 					ChatbotMain.print(requestResponses[rnd]);
 				}
-				if (typeOfRequest(response.toLowerCase()).equals("ingredient") || typeOfRequest(response.toLowerCase()).equals("ingredients"))
+				if (detectResponse(response.toLowerCase()) == INGREDIENT_NAMES)
 				{
 					ChatbotMain.print("The ingredients you still need are:");
 					this.printNames(0);
 				}
-				else if (typeOfRequest(response.toLowerCase()).equals("tools") || typeOfRequest(response.toLowerCase()).equals("utensils"))
+				else if (detectResponse(response.toLowerCase()) == TOOLS_NAMES)
 				{
 					ChatbotMain.print("For cooking utensils, you still need the following:");
 					this.printNames(1);
 				}
-				else if (typeOfRequest(response.toLowerCase()).equals("both") || typeOfRequest(response.toLowerCase()).equals("everything"))
+				else if (detectResponse(response.toLowerCase()) == BOTH_NAMES)
 				{
 					ChatbotMain.print("Here's everything you still need:");
 					this.printNames(2);
@@ -70,7 +71,8 @@ public class ChatbotBen implements Topic
 				ChatbotMain.chatbot.getBen().talk("");
 			}
 			
-			ChatbotMain.print("Tell me what the deal is.");
+			int rnd = (int)(Math.random() * (7));
+			ChatbotMain.print(normalResponses[rnd]);
 			response = ChatbotMain.getInput();
 		}
 		ChatbotMain.print("Well, it was nice talking to you, " + ChatbotMain.chatbot.getUsername() + "!");
@@ -150,6 +152,25 @@ public class ChatbotBen implements Topic
 		{
 			printNames(INGREDIENT_NAMES);
 			printNames(TOOLS_NAMES);
+		}
+	}
+	public int detectResponse(String s)
+	{
+		if (typeOfRequest(s).equals("ingredient") || typeOfRequest(s).equals("ingredients"))
+		{
+			return INGREDIENT_NAMES;
+		}
+		else if (typeOfRequest(s).equals("tools") || typeOfRequest(s).equals("utensils"))
+		{
+			return TOOLS_NAMES;
+		}
+		else if (typeOfRequest(s).equals("both") || typeOfRequest(s).equals("everything"))
+		{
+			return BOTH_NAMES;
+		}
+		else
+		{
+			return -1;
 		}
 	}
 }
