@@ -31,21 +31,22 @@ public class ChatbotBen implements Topic
 		food = info.getFoodList();
 		ChatbotMain.print("So you wanna make " + food[0].getName() + ", huh? You're gonna need to get some ingredients first. It'll cost you " + getTotalCost(food[0].getIngredients()) + ". You're also going to need some cooking tools to make it. Feel free to ask for the ingredients and tools at any time.");
 		response = ChatbotMain.getInput();
-		if (response.toLowerCase().equals("no") || !(interested(response.toLowerCase(), this.noKeywords)))
-		{
-			ChatbotMain.print("If you don't want to do this, we'll have to start all over.");
-			ChatbotMain.chatbot.getBen().talk("");
-		}
-		if (typeOfRequest(response.toLowerCase()).length() > 0)
-		{
-			requestCount += 1;
-			// just to test:
-			ChatbotMain.print(typeOfRequest(response.toLowerCase()));
-		}
 		while(!(response.toLowerCase().equals(goodbyeKeyword))) 
 		{
-				ChatbotMain.print("Tell me what the deal is.");
-				response = ChatbotMain.getInput();
+			if (typeOfRequest(response.toLowerCase()).length() > 0)
+			{
+				requestCount += 1;
+				// just to test:
+				ChatbotMain.print(typeOfRequest(response.toLowerCase()));
+			}
+			if (response.toLowerCase().equals("no") || !(interested(response.toLowerCase(), this.noKeywords)))
+			{
+				ChatbotMain.print("If you don't want to do this, we'll have to start all over.");
+				ChatbotMain.chatbot.getBen().talk("");
+			}
+			
+			ChatbotMain.print("Tell me what the deal is.");
+			response = ChatbotMain.getInput();
 		}
 		ChatbotMain.print("Well, it was nice talking to you, " + ChatbotMain.chatbot.getUsername() + "!");
 		return;
@@ -91,7 +92,7 @@ public class ChatbotBen implements Topic
 		{
 			if (ChatbotMain.findKeyword(s.toLowerCase(), requestTerms[i], 0) > -1)
 			{
-				for (int o = 0; i < requestTypes.length; o += 1)
+				for (int o = 0; o < requestTypes.length; o += 1)
 				{
 					if (ChatbotMain.findKeyword(s.toLowerCase(), requestTypes[o], 0) > -1)
 					{
