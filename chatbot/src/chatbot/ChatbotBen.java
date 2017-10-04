@@ -39,7 +39,7 @@ public class ChatbotBen implements Topic
 				requestCount += 1;
 				if (requestCount > 5)
 				{
-					int rnd = (int)Math.random() * (3) + 1;
+					int rnd = (int)(Math.random() * (5));
 					ChatbotMain.print(requestResponses[rnd]);
 				}
 				if (typeOfRequest(response.toLowerCase()).equals("ingredient") || typeOfRequest(response.toLowerCase()).equals("ingredients"))
@@ -60,6 +60,7 @@ public class ChatbotBen implements Topic
 				else
 				{
 					ChatbotMain.print("Be more specific. What do you want to know, again?");
+					response = ChatbotMain.getInput();
 					continue;
 				}
 			}
