@@ -71,7 +71,7 @@ public class ChatbotBen implements Topic
 				ChatbotMain.chatbot.getBen().talk("");
 			}
 			
-			int rnd = (int)(Math.random() * (7));
+			int rnd = (int)(Math.random() * (6));
 			ChatbotMain.print(normalResponses[rnd]);
 			response = ChatbotMain.getInput();
 		}
