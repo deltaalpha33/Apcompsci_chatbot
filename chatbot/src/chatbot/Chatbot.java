@@ -68,8 +68,10 @@ public class Chatbot {
 	}
 	public void startChatting() {
 		//whenever you print or get input, use these methods
-		ChatbotMain.print("Hi! I am an intelligent machine that can respond to your input. Tell me your name.");
-		username = ChatbotMain.getInput();
+		ChatbotMain.print("Hello this is "  + Chatbot.name + ". Welcome to my interactive terminal.");
+		ChatbotMain.print("What is your name?");
+		this.username = ChatbotMain.getInput();
+		ChatbotMain.print("Nice to meet you " + this.username);
 		
 		while(true) {
 			ChatbotMain.print("What would you like to talk about?");
