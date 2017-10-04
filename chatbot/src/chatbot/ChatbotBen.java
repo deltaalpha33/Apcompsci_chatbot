@@ -149,11 +149,17 @@ public class ChatbotBen implements Topic
 			{
 				for (int o = 0; o < food[0].getIngredients().length; o += 1)
 				{
-					finalString += (food[0].getIngredients()[o].getName());
+					if(ChatbotMain.findKeyword(s.toLowerCase(), food[0].getIngredients()[o].getName(), 0) > -1) 
+					{
+						finalString += (food[0].getIngredients()[o].getName()) + "|";
+					}
 				}
 				for (int p = 0; p < food[0].getCookingTools().length; p += 1)
 				{
-					finalString += (food[0].getCookingTools()[p].getName());
+					if(ChatbotMain.findKeyword(s.toLowerCase(), food[0].getCookingTools()[p].getName(), 0) > -1) 
+					{
+						finalString += (food[0].getCookingTools()[p].getName()) + "|";
+					}
 				}
 			}
 		}
