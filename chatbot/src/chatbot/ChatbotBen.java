@@ -13,6 +13,7 @@ public class ChatbotBen implements Topic
 	private Chatbot info;
 	private Food[] food;
 	private int requestCount;
+	private int finishCount;
 	private String[] requestTerms = {"show me", "tell me", "need to know", "what are the", "do i need", "do i have to", "want to know", "give me"};
 	private String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "both", "everything"};
 	private String[] requestResponses = {"You better get going", "Why do you keep asking?", "Maybe if you stopped asking and went out and got stuff, you would be done by now.", "Do you have amnesia or something?"};
@@ -27,6 +28,7 @@ public class ChatbotBen implements Topic
 		goodbyeKeyword = "bye";
 		response = "";
 		requestCount = 0;
+		finishCount = 0;
 	}
 
 	public void talk(String response) 
@@ -65,6 +67,11 @@ public class ChatbotBen implements Topic
 					response = ChatbotMain.getInput();
 					continue;
 				}
+			}
+			else if (typeOfFinish(response.toLowerCase()).length() > 0)
+			{
+				ChatbotMain.print(typeOfFinish(response.toLowerCase()));
+				finishCount += 1;
 			}
 			if (response.toLowerCase().equals("no") || !(interested(response.toLowerCase(), this.noKeywords)))
 			{
