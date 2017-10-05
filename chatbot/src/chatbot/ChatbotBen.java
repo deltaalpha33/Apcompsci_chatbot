@@ -80,17 +80,17 @@ public class ChatbotBen implements Topic
 					continue;
 				}
 			}
-			else if (typeOfFinish(response.toLowerCase()).length() > 0)
+			if (typeOfFinish(response.toLowerCase()).length() > 0)
 			{
 				for (int i = 0; i < (splitFinish(typeOfFinish(response.toLowerCase()))).length; i += 1)
 				{
-						for (int o = 0; o < this.finishedItems.length; o += 1)
-						{
-							if (this.unfinishedItems[o].equals(splitFinish(typeOfFinish(response.toLowerCase()))[i]))
-                            {
-                            	this.finishedItems[o] = splitFinish(typeOfFinish(response.toLowerCase()))[i];
-                            }
-						}
+					for (int o = 0; o < this.finishedItems.length; o += 1)
+					{
+						if (this.unfinishedItems[o].equals(splitFinish(typeOfFinish(response.toLowerCase()))[i]))
+                        {
+                        	this.finishedItems[o] = splitFinish(typeOfFinish(response.toLowerCase()))[i];
+                        }
+					}
 				}				
 				try
 				{
