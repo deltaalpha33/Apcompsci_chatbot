@@ -5,6 +5,10 @@ public class Food implements Namable{
 	private Ingredient[] ingredients;
 	private KitchenUtensil[] cookingTools;
 	
+	public Food() {
+		//empty constructor for creating Food manually
+	}
+	
 	public Food(String name, Ingredient[] ingredients, KitchenUtensil[] cookingTools) {
 		this.name = name;
 		this.ingredients = ingredients;
