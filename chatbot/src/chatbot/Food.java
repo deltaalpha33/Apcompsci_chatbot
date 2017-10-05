@@ -1,6 +1,6 @@
 package chatbot;
 
-public class Food {
+public class Food implements Namable{
 	private String name;
 	private Ingredient[] ingredients;
 	private KitchenUtensil[] cookingTools;
@@ -20,6 +20,16 @@ public class Food {
 	
 	public KitchenUtensil[] getCookingTools(){
 		return this.cookingTools;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setIngredients(Ingredient[] ingredients) {
+		this.ingredients = ingredients;
+	}
+	public void setCookingTools(KitchenUtensil[] cookingTools) {
+		this.cookingTools = cookingTools;
 	}
 	
 }

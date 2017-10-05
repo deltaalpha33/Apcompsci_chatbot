@@ -1,6 +1,6 @@
 package chatbot;
 
-public class KitchenUtensil {
+public class KitchenUtensil implements Namable{
 	private int priority = 0;
 	private String specialAction = "";
 	private String name;

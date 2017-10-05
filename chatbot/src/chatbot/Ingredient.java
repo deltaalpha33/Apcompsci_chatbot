@@ -1,6 +1,6 @@
 package chatbot;
 
-public class Ingredient {
+public class Ingredient implements Namable{
 	private String name;
 	private float cost;
 	
