@@ -71,7 +71,7 @@ public class ChatbotMain {
 			  return true;
 		  }
 		  
-		  if(s.substring(psn-4, psn).equals("not ")) {
+		  if(s.substring(psn-4, psn).equals("not ") || s.substring(psn-3, psn).equals("no ")) {
 			  return false;
 		  }
 		  return true;
