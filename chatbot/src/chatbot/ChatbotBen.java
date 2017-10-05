@@ -103,7 +103,18 @@ public class ChatbotBen implements Topic
 				{
 					
 				}
-				
+				try
+				{
+					if (finishedItems[finishedItems.length - 1].length() > 0)
+					{
+						info.setFoodPurchased(true);
+						return;
+					}
+				}
+				catch (Exception e2)
+				{
+					
+				}
 				finishCount += 1;
 			}
 			if (response.toLowerCase().equals("no") || !(interested(response.toLowerCase(), this.noKeywords)))
