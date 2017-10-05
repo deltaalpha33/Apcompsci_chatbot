@@ -94,17 +94,6 @@ public class ChatbotBen implements Topic
 				}				
 				try
 				{
-					for (int i = 0; i < this.finishedItems.length; i += 1)
-					{
-						ChatbotMain.print(finishedItems[i]);
-					}
-				}
-				catch (Exception e)
-				{
-					
-				}
-				try
-				{
 					int everythingFinished = 0;
 					for (int i = 0; i < finishedItems.length; i += 1)
 					{
@@ -119,7 +108,7 @@ public class ChatbotBen implements Topic
 						}
 					}
 				}
-				catch (Exception e2)
+				catch (Exception e)
 				{
 					
 				}
