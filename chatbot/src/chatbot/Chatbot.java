@@ -8,7 +8,6 @@ public class Chatbot {
 	private Topic ben;
 	private Food[] foodList;
 	private boolean foodSelected = false;
-	//private List<Food> foodHistory =
 	
 	public boolean isFoodPurchased() {
 		return this.foodPurchased;
