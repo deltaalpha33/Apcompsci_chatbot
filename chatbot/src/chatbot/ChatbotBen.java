@@ -105,10 +105,18 @@ public class ChatbotBen implements Topic
 				}
 				try
 				{
-					if (finishedItems[finishedItems.length - 1].length() > 0)
+					int everythingFinished = 0;
+					for (int i = 0; i < finishedItems.length; i += 1)
 					{
-						info.setFoodPurchased(true);
-						return;
+						if (finishedItems[i].length() > 0)
+						{
+							everythingFinished += 1;
+						}
+						if (everythingFinished == finishedItems.length)
+						{
+							info.setFoodPurchased(true);
+							return;
+						}
 					}
 				}
 				catch (Exception e2)
