@@ -1,6 +1,6 @@
 package chatbot;
 
-public class Food implements Namable{
+public class Food implements Nameable{
 	private String name;
 	private Ingredient[] ingredients;
 	private KitchenUtensil[] cookingTools;
