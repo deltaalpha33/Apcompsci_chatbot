@@ -38,7 +38,7 @@ public class Chatbot {
 
 	public Chatbot() {
 		Ingredient tempingredient = new Ingredient("meatballs", (float)6.99);
-		KitchenUtensil temputensil = new KitchenUtensil("Spatula");
+		KitchenUtensil temputensil = new KitchenUtensil("spatula");
 		Ingredient[] tempilist = {tempingredient};
 		KitchenUtensil[] tempklist = {temputensil};
 		Food tempfood = new Food("pasta", tempilist, tempklist);

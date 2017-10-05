@@ -7,6 +7,10 @@ public class ChatbotAchilles implements Topic{
 	private String secretKeyword;
 	private String response;
 	
+	
+	//private boolean chatting;
+	//private String[] recipe foods
+	
 	public ChatbotAchilles() {
 		String[] temp = {"stuff", "things", "whatever", "nothing"};
 		keywords = temp;
@@ -42,4 +46,51 @@ public class ChatbotAchilles implements Topic{
 		}
 		return false;
 	}
+	
+	
+/*
+	public void startTalking(String response) {
+		ChatbotMain.print("Hmm, that is interesting.");
+		chatting = true;
+		String lastResponse = "";
+		while(chatting) {
+			response = ChatbotMain.getInput();
+			if(lastResponse.toLowerCase().equals(response.toLowerCase())) {
+				ChatbotMain.print("You already said that.");
+				
+			}
+		}
+	}
+	
+	String[] tools = {"oven", "knife", "spoon", "pan", skillet"...};
+	String[] insults1 = {"are you sure??", "what the f....", "youre joking right"};
+	String[] insults2 = {"don't be so stupid", "are you freaking serious?!", "haha you are mad dumb"};
+	String[] insults3 = {"you are a disgrace, you don't know the essentials of cooking", "haha kill yourself", "jesus crist, stop now you are embarrasing yourself"};
+	
+	int wrongResponseCount = 0;
+	
+	
+	for(int i = 0; i < tools.length(); i++){
+		if(response.toLowerCase().equals(tools[i].toLowerCase())){
+		ChatbotMain.print("Very Good, You know what tools are needed for cooking!");
+		
+		}
+		else{
+			wrongResponseCount++;
+				if(wrongResponseCount =< 3){
+					ChatbotMain.print(insults1[Math.random() * insults1.length()]);
+				}
+				else if(wrongResponseCount =< 6 && wrongResponseCount > 3){
+					ChatbotMain.print(insults2[Math.random() * insults2.length()]);
+				}
+				else if(wrongResponseCount =< 9 && wrongResponseCount > 6){
+					ChatbotMain.print(insults3[Math.random() * insults3.length()]);
+				}
+	
+			}
+	}
+*/
+	
+	
+	
 }

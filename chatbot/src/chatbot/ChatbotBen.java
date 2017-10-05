@@ -13,9 +13,14 @@ public class ChatbotBen implements Topic
 	private Chatbot info;
 	private Food[] food;
 	private int requestCount;
-	private String[] requestTerms = {"show me", "tell me", "need to know", "what are the", "do i need", "do i have to", "want to know"};
+	private int finishCount;
+	private String[] requestTerms = {"show me", "tell me", "need to know", "what are the", "do i need", "do i have to", "want to know", "give me"};
 	private String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "both", "everything"};
 	private String[] requestResponses = {"You better get going", "Why do you keep asking?", "Maybe if you stopped asking and went out and got stuff, you would be done by now.", "Do you have amnesia or something?"};
+	private String[] normalResponses = {"Tell me what the deal is.", "What's up?", "You need anything?", "What's the deal?", "You got a question or something?", "Need anything?"};
+	private String[] finishedTerms = {"finished", "got", "found", "bought", "purchased"};
+	private String[] unfinishedItems = new String[2];
+	private String[] finishedItems = new String[2];
 	
 	public ChatbotBen(Chatbot chatbot) 
 	{
@@ -25,12 +30,27 @@ public class ChatbotBen implements Topic
 		goodbyeKeyword = "bye";
 		response = "";
 		requestCount = 0;
+		finishCount = 0;
+		String[] finishedItems = new String[(info.getFoodList()[0].getIngredients().length) + (info.getFoodList()[0].getCookingTools().length)];
+		String[] unfinishedItems = new String[finishedItems.length];
+		for (int i = 0; i < info.getFoodList()[0].getIngredients().length; i += 1)
+		{
+			unfinishedItems[i] = info.getFoodList()[0].getIngredients()[i].getName();
+		}
+		for (int i = info.getFoodList()[0].getIngredients().length; i < unfinishedItems.length; i += 1)
+		{
+			unfinishedItems[i] = info.getFoodList()[0].getCookingTools()[i - 1].getName();
+		}
+		for (int i = 0; i < unfinishedItems.length; i += 1)
+		{
+			ChatbotMain.print(unfinishedItems[i]);
+		}
 	}
 
 	public void talk(String response) 
 	{
 		food = info.getFoodList();
-		ChatbotMain.print("So you wanna make " + food[0].getName() + ", huh? You're gonna need to get some ingredients first. It'll cost you " + getTotalCost(food[0].getIngredients()) + ". You're also going to need some cooking tools to make it. Feel free to ask for the ingredients and tools at any time.");
+		ChatbotMain.print("So you wanna make " + food[0].getName() + ". You're gonna need to get some ingredients first. It'll cost you " + getTotalCost(food[0].getIngredients()) + ". You're also going to need some cooking tools to make it. Feel free to ask for the ingredients and tools at any time.");
 		response = ChatbotMain.getInput();
 		while(!(response.toLowerCase().equals(goodbyeKeyword))) 
 		{
@@ -42,17 +62,17 @@ public class ChatbotBen implements Topic
 					int rnd = (int)(Math.random() * (5));
 					ChatbotMain.print(requestResponses[rnd]);
 				}
-				if (typeOfRequest(response.toLowerCase()).equals("ingredient") || typeOfRequest(response.toLowerCase()).equals("ingredients"))
+				if (detectResponse(response.toLowerCase()) == INGREDIENT_NAMES)
 				{
 					ChatbotMain.print("The ingredients you still need are:");
 					this.printNames(0);
 				}
-				else if (typeOfRequest(response.toLowerCase()).equals("tools") || typeOfRequest(response.toLowerCase()).equals("utensils"))
+				else if (detectResponse(response.toLowerCase()) == TOOLS_NAMES)
 				{
 					ChatbotMain.print("For cooking utensils, you still need the following:");
 					this.printNames(1);
 				}
-				else if (typeOfRequest(response.toLowerCase()).equals("both") || typeOfRequest(response.toLowerCase()).equals("everything"))
+				else if (detectResponse(response.toLowerCase()) == BOTH_NAMES)
 				{
 					ChatbotMain.print("Here's everything you still need:");
 					this.printNames(2);
@@ -64,13 +84,35 @@ public class ChatbotBen implements Topic
 					continue;
 				}
 			}
+			else if (typeOfFinish(response.toLowerCase()).length() > 0)
+			{
+				ChatbotMain.print(typeOfFinish(response.toLowerCase()));
+				
+				for (int i = 0; i < (splitFinish(typeOfFinish(response.toLowerCase()))).length; i += 1)
+				{
+
+						for (int o = 0; o < finishedItems.length; o += 1)
+						{
+							if (unfinishedItems[o].equals(splitFinish(typeOfFinish(response.toLowerCase()))[i]))
+                            {
+                            	finishedItems[o] = splitFinish(typeOfFinish(response.toLowerCase()))[i];
+                            	ChatbotMain.print(finishedItems[o]);
+                            }
+
+						}
+
+				}				
+				
+				finishCount += 1;
+			}
 			if (response.toLowerCase().equals("no") || !(interested(response.toLowerCase(), this.noKeywords)))
 			{
 				ChatbotMain.print("If you don't want to do this, we'll have to start all over.");
 				ChatbotMain.chatbot.getBen().talk("");
 			}
 			
-			ChatbotMain.print("Tell me what the deal is.");
+			int rnd = (int)(Math.random() * (6));
+			ChatbotMain.print(normalResponses[rnd]);
 			response = ChatbotMain.getInput();
 		}
 		ChatbotMain.print("Well, it was nice talking to you, " + ChatbotMain.chatbot.getUsername() + "!");
@@ -130,6 +172,31 @@ public class ChatbotBen implements Topic
 		}
 		return "";
 	}
+	public String typeOfFinish(String s)
+	{
+		String finalString = "";
+		for (int i = 0; i < finishedTerms.length; i += 1)
+		{
+			if (ChatbotMain.findKeyword(s.toLowerCase(), finishedTerms[i], 0) > -1)
+			{
+				for (int o = 0; o < food[0].getIngredients().length; o += 1)
+				{
+					if(ChatbotMain.findKeyword(s.toLowerCase(), food[0].getIngredients()[o].getName(), 0) > -1) 
+					{
+						finalString += (food[0].getIngredients()[o].getName()) + "|";
+					}
+				}
+				for (int p = 0; p < food[0].getCookingTools().length; p += 1)
+				{
+					if(ChatbotMain.findKeyword(s.toLowerCase(), food[0].getCookingTools()[p].getName(), 0) > -1) 
+					{
+						finalString += (food[0].getCookingTools()[p].getName()) + "|";
+					}
+				}
+			}
+		}
+		return finalString;
+	}
 	public void printNames(int namesToPrint)
 	{
 		if (namesToPrint == INGREDIENT_NAMES)
@@ -151,5 +218,45 @@ public class ChatbotBen implements Topic
 			printNames(INGREDIENT_NAMES);
 			printNames(TOOLS_NAMES);
 		}
+	}
+	public int detectResponse(String s)
+	{
+		if (typeOfRequest(s).equals("ingredient") || typeOfRequest(s).equals("ingredients"))
+		{
+			return INGREDIENT_NAMES;
+		}
+		else if (typeOfRequest(s).equals("tools") || typeOfRequest(s).equals("utensils"))
+		{
+			return TOOLS_NAMES;
+		}
+		else if (typeOfRequest(s).equals("both") || typeOfRequest(s).equals("everything"))
+		{
+			return BOTH_NAMES;
+		}
+		else
+		{
+			return -1;
+		}
+	}
+	public String[] splitFinish(String s)
+	{
+		int wordLength = 0;
+		int arrayIndex = 0;
+		String[] finalString = new String[s.length()];
+		
+		for (int i = 0; i < s.length(); i += 1)
+		{
+			if (s.substring(i, i + 1).equals("|"))
+			{
+				finalString[arrayIndex] = s.substring(i - wordLength, i);
+				arrayIndex += 1;
+				wordLength = 0;
+			}
+			else
+			{
+				wordLength += 1;
+			}
+		}
+		return finalString;
 	}
 }
