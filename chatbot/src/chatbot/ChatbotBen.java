@@ -102,9 +102,16 @@ public class ChatbotBen implements Topic
 						
 					}
 				}
-				for (int i = 0; i < finishedItems.length; i += 1)
+				try
 				{
-					ChatbotMain.print(finishedItems[i]);
+					for (int i = 0; i < finishedItems.length; i += 1)
+					{
+						ChatbotMain.print(finishedItems[i]);
+					}					
+				}
+				catch (Exception e)
+				{
+					
 				}
 				
 				finishCount += 1;
