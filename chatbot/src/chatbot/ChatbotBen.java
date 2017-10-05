@@ -19,6 +19,8 @@ public class ChatbotBen implements Topic
 	private String[] requestResponses = {"You better get going", "Why do you keep asking?", "Maybe if you stopped asking and went out and got stuff, you would be done by now.", "Do you have amnesia or something?"};
 	private String[] normalResponses = {"Tell me what the deal is.", "What's up?", "You need anything?", "What's the deal?", "You got a question or something?", "Need anything?"};
 	private String[] finishedTerms = {"finished", "got", "found", "bought", "purchased"};
+	private String[] unfinishedItems;
+	private String[] finishedItems;
 	
 	public ChatbotBen(Chatbot chatbot) 
 	{
@@ -29,6 +31,16 @@ public class ChatbotBen implements Topic
 		response = "";
 		requestCount = 0;
 		finishCount = 0;
+		String[] finishedItems = new String[(info.getFoodList()[0].getIngredients().length) + (info.getFoodList()[0].getCookingTools().length)];
+		String[] unfinishedItems = new String[finishedItems.length];
+		for (int i = 0; i < info.getFoodList()[0].getIngredients().length; i += 1)
+		{
+			unfinishedItems[i] = info.getFoodList()[0].getIngredients()[i].getName();
+		}
+		for (int i = info.getFoodList()[0].getIngredients().length; i < unfinishedItems.length; i += 1)
+		{
+			unfinishedItems[i] = info.getFoodList()[0].getCookingTools()[i - 1].getName();
+		}
 	}
 
 	public void talk(String response) 
@@ -71,6 +83,30 @@ public class ChatbotBen implements Topic
 			else if (typeOfFinish(response.toLowerCase()).length() > 0)
 			{
 				ChatbotMain.print(typeOfFinish(response.toLowerCase()));
+				
+				for (int i = 0; i < (splitFinish(typeOfFinish(response.toLowerCase()))).length; i += 1)
+				{
+					try
+					{
+						for (int o = 0; o < finishedItems.length; o += 1)
+						{
+							if (unfinishedItems[o].equals(splitFinish(typeOfFinish(response.toLowerCase()))[i]))
+                            {
+                            	finishedItems[o] = splitFinish(typeOfFinish(response.toLowerCase()))[i];
+                            }
+
+						}
+					}
+					catch (Exception e)
+					{
+						
+					}
+				}
+				for (int i = 0; i < finishedItems.length; i += 1)
+				{
+					ChatbotMain.print(finishedItems[i]);
+				}
+				
 				finishCount += 1;
 			}
 			if (response.toLowerCase().equals("no") || !(interested(response.toLowerCase(), this.noKeywords)))
@@ -205,5 +241,26 @@ public class ChatbotBen implements Topic
 		{
 			return -1;
 		}
+	}
+	public String[] splitFinish(String s)
+	{
+		int wordLength = 0;
+		int arrayIndex = 0;
+		String[] finalString = new String[s.length()];
+		
+		for (int i = 0; i < s.length(); i += 1)
+		{
+			if (s.substring(i, i + 1).equals("|"))
+			{
+				finalString[arrayIndex] = s.substring(i - wordLength, i);
+				arrayIndex += 1;
+				wordLength = 0;
+			}
+			else
+			{
+				wordLength += 1;
+			}
+		}
+		return finalString;
 	}
 }
