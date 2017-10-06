@@ -66,17 +66,17 @@ public class ChatbotBen implements Topic
 				if (detectResponse(response.toLowerCase()) == INGREDIENT_NAMES)
 				{
 					ChatbotMain.print("The ingredients you still need are:");
-					this.printNames(0);
+					this.printNames(INGREDIENT_NAMES);
 				}
 				else if (detectResponse(response.toLowerCase()) == TOOLS_NAMES)
 				{
 					ChatbotMain.print("For cooking utensils, you still need the following:");
-					this.printNames(1);
+					this.printNames(TOOLS_NAMES);
 				}
 				else if (detectResponse(response.toLowerCase()) == BOTH_NAMES)
 				{
 					ChatbotMain.print("Here's everything you still need:");
-					this.printNames(2);
+					this.printNames(BOTH_NAMES);
 				}
 				else
 				{
