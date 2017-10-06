@@ -146,6 +146,7 @@ public class ChatbotBen implements Topic
 						if (everythingFinished == finishedItems.length)
 						{
 							info.setFoodPurchased(true);
+							ChatbotMain.print("Looks like you have everything you need.");
 							return;
 						}
 					}
