@@ -14,6 +14,7 @@ public class ChatbotBen implements Topic
 	private Food[] food;
 	private int requestCount;
 	private int finishCount;
+	private int normalCount;
 	private String[] requestTerms = {"show me", "tell me", "need to know", "what are the", "do i need", "do i have to", "want to know", "give me"};
 	private String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "both", "everything"};
 	private String[] requestResponses = {"You better get going", "Why do you keep asking?", "Maybe if you stopped asking and went out and got stuff, you would be done by now.", "Do you have amnesia or something?"};
@@ -33,6 +34,7 @@ public class ChatbotBen implements Topic
 		this.response = "";
 		this.requestCount = 0;
 		this.finishCount = 0;
+		this.normalCount = 0;
 		this.finishedItems = new String[(info.getFoodList()[0].getIngredients().length) + (info.getFoodList()[0].getCookingTools().length)];
 		this.unfinishedItems = new String[finishedItems.length];
 		for (int i = 0; i < info.getFoodList()[0].getIngredients().length; i += 1)
@@ -144,6 +146,10 @@ public class ChatbotBen implements Topic
 			
 			int rnd = (int)(Math.random() * (6));
 			ChatbotMain.print(normalResponses[rnd]);
+			if (normalCount % 5 == 0)
+			{
+				ChatbotMain.print("If you don't know what to say, try asking what you have left to get or what you already have.");
+			}
 			response = ChatbotMain.getInput();
 		}
 		ChatbotMain.print("Well, it was nice talking to you, " + ChatbotMain.chatbot.getUsername() + "!");
