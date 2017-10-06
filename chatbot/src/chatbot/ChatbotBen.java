@@ -19,6 +19,8 @@ public class ChatbotBen implements Topic
 	private String[] requestResponses = {"You better get going", "Why do you keep asking?", "Maybe if you stopped asking and went out and got stuff, you would be done by now.", "Do you have amnesia or something?"};
 	private String[] normalResponses = {"Tell me what the deal is.", "What's up?", "You need anything?", "What's the deal?", "You got a question or something?", "Need anything?"};
 	private String[] finishedTerms = {"finished", "got", "found", "bought", "purchased"};
+	private String[] finishedResponses = {"Another task done, nice job.", "You're a go-getter.", "Great work.", "You're on the right track.", "That wasn't too bad, was it?", "Gotcha"};
+	private String[] alreadyFinishedResponses = {"You already bought that.", "You already got that.", "You didn't need to get it again...", "You only needed to buy it once."};
 	private String[] unfinishedItems;
 	private String[] finishedItems;
 	
@@ -55,7 +57,7 @@ public class ChatbotBen implements Topic
 				requestCount += 1;
 				if (requestCount > 5)
 				{
-					int rnd = (int)(Math.random() * (5));
+					int rnd = (int)(Math.random() * (4));
 					ChatbotMain.print(requestResponses[rnd]);
 				}
 				if (detectResponse(response.toLowerCase()) == INGREDIENT_NAMES)
@@ -82,13 +84,28 @@ public class ChatbotBen implements Topic
 			}
 			if (typeOfFinish(response.toLowerCase()).length() > 0)
 			{
+				boolean repeatFinish = false;
 				for (int i = 0; i < (splitFinish(typeOfFinish(response.toLowerCase()))).length; i += 1)
 				{
 					for (int o = 0; o < this.finishedItems.length; o += 1)
 					{
 						if (this.unfinishedItems[o].equals(splitFinish(typeOfFinish(response.toLowerCase()))[i]))
                         {
-                        	this.finishedItems[o] = splitFinish(typeOfFinish(response.toLowerCase()))[i];
+                        	try
+                        	{
+                        		if (this.finishedItems[o].equals(splitFinish(typeOfFinish(response.toLowerCase()))[i]))
+                        		{
+                        			int rnd = (int)(Math.random() * (4));
+                        			ChatbotMain.print(alreadyFinishedResponses[rnd]);
+                        			repeatFinish = true;
+                        			continue;
+                        		}
+                        	}
+                        	catch (Exception e)
+                        	{
+                        		
+                        	}
+							this.finishedItems[o] = splitFinish(typeOfFinish(response.toLowerCase()))[i];
                         }
 					}
 				}				
@@ -111,6 +128,11 @@ public class ChatbotBen implements Topic
 				catch (Exception e)
 				{
 					
+				}
+				if (!repeatFinish)
+				{
+					int rnd = (int)(Math.random() * (6));
+					ChatbotMain.print(finishedResponses[rnd]);
 				}
 				finishCount += 1;
 			}
