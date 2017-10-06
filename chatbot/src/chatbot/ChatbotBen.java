@@ -169,7 +169,7 @@ public class ChatbotBen implements Topic
 			
 			int rnd = (int)(Math.random() * (6));
 			ChatbotMain.print(normalResponses[rnd]);
-			if (normalCount % 5 == 0)
+			if (normalCount % 5 == 0 || ChatbotMain.findKeyword(response.toLowerCase(), "help", 0) > -1)
 			{
 				ChatbotMain.print("If you don't know what to say, try asking what you have left to get or what you already have.");
 			}
