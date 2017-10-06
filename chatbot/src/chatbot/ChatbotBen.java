@@ -22,7 +22,7 @@ public class ChatbotBen implements Topic
 	private String[] finishedTerms = {"finished", "got", "found", "bought", "purchased"};
 	private String[] finishedResponses = {"Another task done, nice job.", "You're a go-getter.", "Great work.", "You're on the right track.", "That wasn't too bad, was it?", "Gotcha"};
 	private String[] alreadyFinishedResponses = {"You already bought that.", "You already got that.", "You didn't need to get it again...", "You only needed to buy it once."};
-	private String[] alreadyCheckTerms = {"what do i", "tell me what i", "what have i", "already have", "do i have"};
+	private String[] alreadyCheckTerms = {"what do i", "tell me what i", "what have i", "already have", "do i have", "do i still need"};
 	private String[] unfinishedItems;
 	private String[] finishedItems;
 	
