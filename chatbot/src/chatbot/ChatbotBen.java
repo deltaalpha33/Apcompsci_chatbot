@@ -22,6 +22,7 @@ public class ChatbotBen implements Topic
 	private String[] finishedTerms = {"finished", "got", "found", "bought", "purchased"};
 	private String[] finishedResponses = {"Another task done, nice job.", "You're a go-getter.", "Great work.", "You're on the right track.", "That wasn't too bad, was it?", "Gotcha"};
 	private String[] alreadyFinishedResponses = {"You already bought that.", "You already got that.", "You didn't need to get it again...", "You only needed to buy it once."};
+	private String[] alreadyCheckTerms = {"what do i", "tell me what i", "what have i", "already have", "what do i have"};
 	private String[] unfinishedItems;
 	private String[] finishedItems;
 	
@@ -82,6 +83,28 @@ public class ChatbotBen implements Topic
 					ChatbotMain.print("Be more specific. What do you want to know, again?");
 					response = ChatbotMain.getInput();
 					continue;
+				}
+			}
+			if (detectAlreadyCheck(response.toLowerCase()))
+			{
+				ChatbotMain.print("So far, you have:");
+				
+				boolean foundAnything = false;
+				for (int i = 0; i < finishedItems.length; i += 1)
+				{
+					try
+					{
+						ChatbotMain.print(finishedItems[i]);
+						foundAnything = true;
+					}
+					catch (Exception e)
+					{
+						
+					}
+				}
+				if (!foundAnything)
+				{
+					ChatbotMain.print("...Nothing. You better get going!");
 				}
 			}
 			if (typeOfFinish(response.toLowerCase()).length() > 0)
@@ -151,6 +174,7 @@ public class ChatbotBen implements Topic
 				ChatbotMain.print("If you don't know what to say, try asking what you have left to get or what you already have.");
 			}
 			response = ChatbotMain.getInput();
+			normalCount += 1;
 		}
 		ChatbotMain.print("Well, it was nice talking to you, " + ChatbotMain.chatbot.getUsername() + "!");
 		return;
@@ -295,5 +319,16 @@ public class ChatbotBen implements Topic
 			}
 		}
 		return finalString;
+	}
+	public boolean detectAlreadyCheck(String s)
+	{
+		for (int i = 0; i < alreadyCheckTerms.length; i += 1)
+		{
+			if (ChatbotMain.findKeyword(s, alreadyCheckTerms[i], 0) > -1)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }
