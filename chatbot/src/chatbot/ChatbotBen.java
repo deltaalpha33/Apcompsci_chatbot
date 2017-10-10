@@ -20,7 +20,7 @@ public class ChatbotBen implements Topic
 	private String[] requestTerms = {"show me", "tell me", "need to know", "what are the", "do i need", "do i have to", "want to know", "give me"};
 	private String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "both", "everything"};
 	private String[] requestResponses = {"You better get going", "Why do you keep asking?", "Maybe if you stopped asking and went out and got stuff, you would be done by now.", "Do you have amnesia or something?"};
-	private String[] normalResponses = {"Tell me what the deal is.", "What's up?", "You need anything?", "What's the deal?", "You got a question or something?", "Need anything?"};
+	private String[] normalResponses = {"Want to ask anything?", "What's up?", "You need anything?", "What's the deal?", "You got a question or something?", "Need anything?"};
 	private String[] finishedTerms = {"finished", "got", "found", "bought", "purchased"};
 	private String[] finishedResponses = {"Another task done, nice job.", "You're a go-getter.", "Great work.", "You're on the right track.", "That wasn't too bad, was it?", "Gotcha"};
 	private String[] alreadyFinishedResponses = {"You already bought that.", "You already got that.", "You didn't need to get it again...", "You only needed to buy it once."};
@@ -61,6 +61,10 @@ public class ChatbotBen implements Topic
 		{
 			this.normalResponse = true;
 			boolean alreadyCheck = false;
+			if (response.toLowerCase().equals("sorry"))
+			{
+				ChatbotMain.print("No problem.");
+			}
 			if (typeOfRequest(response.toLowerCase()).length() > 0)
 			{
 				requestCount += 1;
