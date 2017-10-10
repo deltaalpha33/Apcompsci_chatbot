@@ -25,6 +25,7 @@ public class ChatbotBen implements Topic
 	private String[] finishedResponses = {"Another task done, nice job.", "You're a go-getter.", "Great work.", "You're on the right track.", "That wasn't too bad, was it?", "Gotcha"};
 	private String[] alreadyFinishedResponses = {"You already bought that.", "You already got that.", "You didn't need to get it again...", "You only needed to buy it once."};
 	private String[] alreadyCheckTerms = {"what do i", "tell me what i", "what have i", "already have", "do i have", "do i still need"};
+	private String[] jibberishResponses = {"What's that supposed to mean?", "I don't get it.", "I don't get what you're trying to say.", "Didn't catch that.", "Huh?", "I don't get what that's supposed to mean.", "I missed the meaning of that.", "I don't get it."};
 	private String[] unfinishedItems;
 	private String[] finishedItems;
 	
@@ -61,16 +62,18 @@ public class ChatbotBen implements Topic
 		{
 			this.normalResponse = true;
 			boolean alreadyCheck = false;
+			boolean jibberish = true;
 			if (response.toLowerCase().equals("sorry"))
 			{
 				ChatbotMain.print("No problem.");
+				jibberish = false;
 			}
 			if (typeOfRequest(response.toLowerCase()).length() > 0)
 			{
 				requestCount += 1;
 				if (requestCount > 5)
 				{
-					int rnd = (int)(Math.random() * (4));
+					int rnd = (int)(Math.random() * (requestResponses.length));
 					ChatbotMain.print(requestResponses[rnd]);
 				}
 				if (detectResponse(response.toLowerCase()) == INGREDIENT_NAMES)
@@ -94,6 +97,7 @@ public class ChatbotBen implements Topic
 					response = ChatbotMain.getInput();
 					continue;
 				}
+				jibberish = false;
 			}
 			if (detectAlreadyCheck(response.toLowerCase()))
 			{
@@ -118,10 +122,12 @@ public class ChatbotBen implements Topic
 					ChatbotMain.print("...Nothing. You better get going!");
 					this.normalResponse = false;
 				}
+				jibberish = false;
 			}
 			if (typeOfFinish(response.toLowerCase()).length() > 0)
 			{
 				boolean repeatFinish = false;
+				jibberish = false;
 				if (typeOfFinish(response.toLowerCase()).equals("what") && !alreadyCheck)
 				{
 					ChatbotMain.print("That's not something that you needed to buy.");
@@ -145,7 +151,7 @@ public class ChatbotBen implements Topic
 	                        	{
 	                        		if (this.finishedItems[o].equals(splitFinish(typeOfFinish(response.toLowerCase()))[i]))
 	                        		{
-	                        			int rnd = (int)(Math.random() * (4));
+	                        			int rnd = (int)(Math.random() * (alreadyFinishedResponses.length));
 	                        			ChatbotMain.print(alreadyFinishedResponses[rnd]);
 	                        			repeatFinish = true;
 	                        			continue;
@@ -182,7 +188,7 @@ public class ChatbotBen implements Topic
 					}
 					if (!repeatFinish)
 					{
-						int rnd = (int)(Math.random() * (6));
+						int rnd = (int)(Math.random() * (finishedResponses.length));
 						ChatbotMain.print(finishedResponses[rnd]);
 					}
 					finishCount += 1;
@@ -192,16 +198,24 @@ public class ChatbotBen implements Topic
 			{
 				ChatbotMain.print("If you don't want to do this, we'll have to start all over.");
 				ChatbotMain.chatbot.getBen().talk("");
+				jibberish = false;
 			}
 			
-			int rnd = (int)(Math.random() * (6));
-			if (normalResponse)
+			if (jibberish)
 			{
-				ChatbotMain.print(normalResponses[rnd]);
+				int rnd = (int)(Math.random() * (jibberishResponses.length));
+				ChatbotMain.print(jibberishResponses[rnd]);
+				normalResponse = false;
 			}
 			if (normalCount % 5 == 0 || ChatbotMain.findKeyword(response.toLowerCase(), "help", 0) > -1)
 			{
 				ChatbotMain.print("If you don't know what to say, try asking what you have left to get or what you already have.");
+				normalResponse = false;
+			}
+			if (normalResponse)
+			{
+				int rnd = (int)(Math.random() * (normalResponses.length));
+				ChatbotMain.print(normalResponses[rnd]);
 			}
 			response = ChatbotMain.getInput();
 			normalCount += 1;
