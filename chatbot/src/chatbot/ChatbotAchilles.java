@@ -62,6 +62,26 @@ public class ChatbotAchilles implements Topic{
 		}
 	}
 	
+	INGREDIENT_NAMES 
+	TOOLS_NAMES
+	
+	Chatbot.Ingredients[] = ingredients[];
+	
+	
+	
+	CookingMaterials(get it from Ben) = tool[];
+	
+	
+	ChatbotMain.print("How are you going to cook your material?");
+	
+	for(int i = 0; i < tools.length(); i++){
+		if(ChatbotMain.findKeyword(response.toLowerCase().equals(tools[i]))){
+			ChatbotMain.print("Nice you are correct.");
+		}
+	
+	}
+	
+	
 	String[] tools = {"oven", "knife", "spoon", "pan", skillet"...};
 	String[] insults1 = {"are you sure??", "what the f....", "youre joking right"};
 	String[] insults2 = {"don't be so stupid", "are you freaking serious?!", "haha you are mad dumb"};
