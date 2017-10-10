@@ -123,6 +123,11 @@ public class ChatbotBen implements Topic
 					ChatbotMain.print("That's not something that you needed to buy.");
 					this.fakeBoughtCount += 1;
 					this.normalResponse = false;
+					
+					if (fakeBoughtCount > 5)
+					{
+						ChatbotMain.print("How about you go and get something you're actually supposed to get?");
+					}
 				}
 				else
 				{
