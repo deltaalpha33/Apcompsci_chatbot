@@ -15,14 +15,17 @@ public class ChatbotBen implements Topic
 	private int requestCount;
 	private int finishCount;
 	private int normalCount;
+	private int fakeBoughtCount;
+	private boolean normalResponse;
 	private String[] requestTerms = {"show me", "tell me", "need to know", "what are the", "do i need", "do i have to", "want to know", "give me"};
 	private String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "both", "everything"};
 	private String[] requestResponses = {"You better get going", "Why do you keep asking?", "Maybe if you stopped asking and went out and got stuff, you would be done by now.", "Do you have amnesia or something?"};
-	private String[] normalResponses = {"Tell me what the deal is.", "What's up?", "You need anything?", "What's the deal?", "You got a question or something?", "Need anything?"};
+	private String[] normalResponses = {"Want to ask anything?", "What's up?", "You need anything?", "What's the deal?", "You got a question or something?", "Need anything?"};
 	private String[] finishedTerms = {"finished", "got", "found", "bought", "purchased"};
 	private String[] finishedResponses = {"Another task done, nice job.", "You're a go-getter.", "Great work.", "You're on the right track.", "That wasn't too bad, was it?", "Gotcha"};
 	private String[] alreadyFinishedResponses = {"You already bought that.", "You already got that.", "You didn't need to get it again...", "You only needed to buy it once."};
 	private String[] alreadyCheckTerms = {"what do i", "tell me what i", "what have i", "already have", "do i have", "do i still need"};
+	private String[] jibberishResponses = {"What's that supposed to mean?", "I don't get it.", "I don't get what you're trying to say.", "Didn't catch that.", "Huh?", "I don't get what that's supposed to mean.", "I missed the meaning of that.", "I don't get it."};
 	private String[] unfinishedItems;
 	private String[] finishedItems;
 	
@@ -36,6 +39,8 @@ public class ChatbotBen implements Topic
 		this.requestCount = 0;
 		this.finishCount = 0;
 		this.normalCount = 0;
+		this.fakeBoughtCount = 0;
+		this.normalResponse = true;
 		this.finishedItems = new String[(info.getFoodList()[0].getIngredients().length) + (info.getFoodList()[0].getCookingTools().length)];
 		this.unfinishedItems = new String[finishedItems.length];
 		for (int i = 0; i < info.getFoodList()[0].getIngredients().length; i += 1)
@@ -55,12 +60,20 @@ public class ChatbotBen implements Topic
 		response = ChatbotMain.getInput();
 		while(!(response.toLowerCase().equals(goodbyeKeyword))) 
 		{
+			this.normalResponse = true;
+			boolean alreadyCheck = false;
+			boolean jibberish = true;
+			if (response.toLowerCase().equals("sorry"))
+			{
+				ChatbotMain.print("No problem.");
+				jibberish = false;
+			}
 			if (typeOfRequest(response.toLowerCase()).length() > 0)
 			{
 				requestCount += 1;
 				if (requestCount > 5)
 				{
-					int rnd = (int)(Math.random() * (4));
+					int rnd = (int)(Math.random() * (requestResponses.length));
 					ChatbotMain.print(requestResponses[rnd]);
 				}
 				if (detectResponse(response.toLowerCase()) == INGREDIENT_NAMES)
@@ -84,10 +97,12 @@ public class ChatbotBen implements Topic
 					response = ChatbotMain.getInput();
 					continue;
 				}
+				jibberish = false;
 			}
 			if (detectAlreadyCheck(response.toLowerCase()))
 			{
 				ChatbotMain.print("So far, you have:");
+				alreadyCheck = true;
 				
 				boolean foundAnything = false;
 				for (int i = 0; i < finishedItems.length; i += 1)
@@ -105,74 +120,102 @@ public class ChatbotBen implements Topic
 				if (!foundAnything)
 				{
 					ChatbotMain.print("...Nothing. You better get going!");
+					this.normalResponse = false;
 				}
+				jibberish = false;
 			}
 			if (typeOfFinish(response.toLowerCase()).length() > 0)
 			{
 				boolean repeatFinish = false;
-				for (int i = 0; i < (splitFinish(typeOfFinish(response.toLowerCase()))).length; i += 1)
+				jibberish = false;
+				if (typeOfFinish(response.toLowerCase()).equals("what") && !alreadyCheck)
 				{
-					for (int o = 0; o < this.finishedItems.length; o += 1)
-					{
-						if (this.unfinishedItems[o].equals(splitFinish(typeOfFinish(response.toLowerCase()))[i]))
-                        {
-                        	try
-                        	{
-                        		if (this.finishedItems[o].equals(splitFinish(typeOfFinish(response.toLowerCase()))[i]))
-                        		{
-                        			int rnd = (int)(Math.random() * (4));
-                        			ChatbotMain.print(alreadyFinishedResponses[rnd]);
-                        			repeatFinish = true;
-                        			continue;
-                        		}
-                        	}
-                        	catch (Exception e)
-                        	{
-                        		
-                        	}
-							this.finishedItems[o] = splitFinish(typeOfFinish(response.toLowerCase()))[i];
-                        }
-					}
-				}				
-				try
-				{
-					int everythingFinished = 0;
-					for (int i = 0; i < finishedItems.length; i += 1)
-					{
-						if (finishedItems[i].length() > 0)
-						{
-							everythingFinished += 1;
-						}
-						if (everythingFinished == finishedItems.length)
-						{
-							info.setFoodPurchased(true);
-							ChatbotMain.print("Looks like you have everything you need.");
-							return;
-						}
-					}
-				}
-				catch (Exception e)
-				{
+					ChatbotMain.print("That's not something that you needed to buy.");
+					this.fakeBoughtCount += 1;
+					this.normalResponse = false;
 					
+					if (fakeBoughtCount > 5)
+					{
+						ChatbotMain.print("How about you go and get something you're actually supposed to get?");
+					}
 				}
-				if (!repeatFinish)
+				else
 				{
-					int rnd = (int)(Math.random() * (6));
-					ChatbotMain.print(finishedResponses[rnd]);
+					for (int i = 0; i < (splitFinish(typeOfFinish(response.toLowerCase()))).length; i += 1)
+					{
+						for (int o = 0; o < this.finishedItems.length; o += 1)
+						{
+							if (this.unfinishedItems[o].equals(splitFinish(typeOfFinish(response.toLowerCase()))[i]))
+	                        {
+	                        	try
+	                        	{
+	                        		if (this.finishedItems[o].equals(splitFinish(typeOfFinish(response.toLowerCase()))[i]))
+	                        		{
+	                        			int rnd = (int)(Math.random() * (alreadyFinishedResponses.length));
+	                        			ChatbotMain.print(alreadyFinishedResponses[rnd]);
+	                        			repeatFinish = true;
+	                        			continue;
+	                        		}
+	                        	}
+	                        	catch (Exception e)
+	                        	{
+	                        		
+	                        	}
+								this.finishedItems[o] = splitFinish(typeOfFinish(response.toLowerCase()))[i];
+	                        }
+						}
+					}				
+					try
+					{
+						int everythingFinished = 0;
+						for (int i = 0; i < finishedItems.length; i += 1)
+						{
+							if (finishedItems[i].length() > 0)
+							{
+								everythingFinished += 1;
+							}
+							if (everythingFinished == finishedItems.length)
+							{
+								info.setFoodPurchased(true);
+								ChatbotMain.print("Looks like you have everything you need.");
+								return;
+							}
+						}
+					}
+					catch (Exception e)
+					{
+						
+					}
+					if (!repeatFinish)
+					{
+						int rnd = (int)(Math.random() * (finishedResponses.length));
+						ChatbotMain.print(finishedResponses[rnd]);
+					}
+					finishCount += 1;
 				}
-				finishCount += 1;
 			}
 			if (response.toLowerCase().equals("no") || !(interested(response.toLowerCase(), this.noKeywords)))
 			{
 				ChatbotMain.print("If you don't want to do this, we'll have to start all over.");
 				ChatbotMain.chatbot.getBen().talk("");
+				jibberish = false;
 			}
 			
-			int rnd = (int)(Math.random() * (6));
-			ChatbotMain.print(normalResponses[rnd]);
-			if (normalCount % 5 == 0 || ChatbotMain.findKeyword(response.toLowerCase(), "help", 0) > -1)
+			if (jibberish)
+			{
+				int rnd = (int)(Math.random() * (jibberishResponses.length));
+				ChatbotMain.print(jibberishResponses[rnd]);
+				normalResponse = false;
+			}
+			if (normalCount % 7 == 0 || ChatbotMain.findKeyword(response.toLowerCase(), "help", 0) > -1)
 			{
 				ChatbotMain.print("If you don't know what to say, try asking what you have left to get or what you already have.");
+				normalResponse = false;
+			}
+			if (normalResponse)
+			{
+				int rnd = (int)(Math.random() * (normalResponses.length));
+				ChatbotMain.print(normalResponses[rnd]);
 			}
 			response = ChatbotMain.getInput();
 			normalCount += 1;
@@ -237,6 +280,7 @@ public class ChatbotBen implements Topic
 	public String typeOfFinish(String s)
 	{
 		String finalString = "";
+		boolean foundAnything = false;
 		for (int i = 0; i < finishedTerms.length; i += 1)
 		{
 			if (ChatbotMain.findKeyword(s.toLowerCase(), finishedTerms[i], 0) > -1)
@@ -246,6 +290,7 @@ public class ChatbotBen implements Topic
 					if(ChatbotMain.findKeyword(s.toLowerCase(), food[0].getIngredients()[o].getName(), 0) > -1) 
 					{
 						finalString += (food[0].getIngredients()[o].getName()) + "|";
+						foundAnything = true;
 					}
 				}
 				for (int p = 0; p < food[0].getCookingTools().length; p += 1)
@@ -253,7 +298,12 @@ public class ChatbotBen implements Topic
 					if(ChatbotMain.findKeyword(s.toLowerCase(), food[0].getCookingTools()[p].getName(), 0) > -1) 
 					{
 						finalString += (food[0].getCookingTools()[p].getName()) + "|";
+						foundAnything = true;
 					}
+				}
+				if (!foundAnything)
+				{
+					return "what";
 				}
 			}
 		}
