@@ -43,6 +43,10 @@ public class ChatbotBen implements Topic
 		this.finishCount = 0;
 		this.normalCount = 0;
 		this.fakeBoughtCount = 0;
+		if (info.getFoodList().length == 0) 
+		{
+			return;
+		}
 		this.finishedItems = new String[(info.getFoodList()[0].getIngredients().length) + (info.getFoodList()[0].getCookingTools().length)];
 		this.unfinishedItems = new String[finishedItems.length];
 		for (int i = 0; i < info.getFoodList()[0].getIngredients().length; i += 1)
