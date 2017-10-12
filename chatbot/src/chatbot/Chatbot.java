@@ -36,13 +36,13 @@ public class Chatbot {
 	private boolean foodPurchased = false;
 
 	public Chatbot() {
-		//Ingredient tempingredient = new Ingredient("meatballs", (float)6.99);
-		//KitchenUtensil temputensil = new KitchenUtensil("spatula");
-		//Ingredient[] tempilist = {tempingredient};
-		//KitchenUtensil[] tempklist = {temputensil};
-		//Food tempfood = new Food("pasta", tempilist, tempklist);
-		//Food[] tempflist = {tempfood};
-		//this.setFoodList(tempflist);
+		Ingredient tempingredient = new Ingredient("meatballs", (float)6.99);
+		KitchenUtensil temputensil = new KitchenUtensil("spatula");
+		Ingredient[] tempilist = {tempingredient};
+		KitchenUtensil[] tempklist = {temputensil};
+		Food tempfood = new Food("pasta", tempilist, tempklist);
+		Food[] tempflist = {tempfood};
+		this.setFoodList(tempflist);
 		ben = new ChatbotBen(this);
 		dimitris = new ChatbotDimitris(this);
 		achilles = new ChatbotAchilles(this);
