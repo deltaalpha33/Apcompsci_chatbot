@@ -17,6 +17,9 @@ public class ChatbotBen implements Topic
 	private int normalCount;
 	private int fakeBoughtCount;
 	private boolean normalResponse;
+	private boolean alreadyCheck;
+	private boolean jibberish;
+	private boolean checkFinish;
 	private String[] requestTerms = {"show me", "tell me", "need to know", "what are the", "do i need", "do i have to", "want to know", "give me"};
 	private String[] requestTypes = {"ingredient", "tools", "utensils", "ingredients", "both", "everything"};
 	private String[] requestResponses = {"You better get going", "Why do you keep asking?", "Maybe if you stopped asking and went out and got stuff, you would be done by now.", "Do you have amnesia or something?"};
@@ -40,7 +43,6 @@ public class ChatbotBen implements Topic
 		this.finishCount = 0;
 		this.normalCount = 0;
 		this.fakeBoughtCount = 0;
-		this.normalResponse = true;
 		this.finishedItems = new String[(info.getFoodList()[0].getIngredients().length) + (info.getFoodList()[0].getCookingTools().length)];
 		this.unfinishedItems = new String[finishedItems.length];
 		for (int i = 0; i < info.getFoodList()[0].getIngredients().length; i += 1)
@@ -61,12 +63,13 @@ public class ChatbotBen implements Topic
 		while(!(response.toLowerCase().equals(goodbyeKeyword))) 
 		{
 			this.normalResponse = true;
-			boolean alreadyCheck = false;
-			boolean jibberish = true;
+			this.alreadyCheck = false;
+			this.jibberish = true;
+			this.checkFinish = false;
 			if (response.toLowerCase().equals("sorry"))
 			{
 				ChatbotMain.print("No problem.");
-				jibberish = false;
+				this.jibberish = false;
 			}
 			if (typeOfRequest(response.toLowerCase()).length() > 0)
 			{
@@ -97,37 +100,16 @@ public class ChatbotBen implements Topic
 					response = ChatbotMain.getInput();
 					continue;
 				}
-				jibberish = false;
+				this.jibberish = false;
 			}
 			if (detectAlreadyCheck(response.toLowerCase()))
 			{
-				ChatbotMain.print("So far, you have:");
-				alreadyCheck = true;
-				
-				boolean foundAnything = false;
-				for (int i = 0; i < finishedItems.length; i += 1)
-				{
-					try
-					{
-						ChatbotMain.print(finishedItems[i]);
-						foundAnything = true;
-					}
-					catch (Exception e)
-					{
-						
-					}
-				}
-				if (!foundAnything)
-				{
-					ChatbotMain.print("...Nothing. You better get going!");
-					this.normalResponse = false;
-				}
-				jibberish = false;
+				this.findAlreadyCheck();
 			}
 			if (typeOfFinish(response.toLowerCase()).length() > 0)
 			{
 				boolean repeatFinish = false;
-				jibberish = false;
+				this.jibberish = false;
 				if (typeOfFinish(response.toLowerCase()).equals("what") && !alreadyCheck)
 				{
 					ChatbotMain.print("That's not something that you needed to buy.");
@@ -186,7 +168,7 @@ public class ChatbotBen implements Topic
 					{
 						
 					}
-					if (!repeatFinish)
+					if (!repeatFinish && !checkFinish)
 					{
 						int rnd = (int)(Math.random() * (finishedResponses.length));
 						ChatbotMain.print(finishedResponses[rnd]);
@@ -198,10 +180,10 @@ public class ChatbotBen implements Topic
 			{
 				ChatbotMain.print("If you don't want to do this, we'll have to start all over.");
 				ChatbotMain.chatbot.getBen().talk("");
-				jibberish = false;
+				this.jibberish = false;
 			}
 			
-			if (jibberish)
+			if (this.jibberish)
 			{
 				int rnd = (int)(Math.random() * (jibberishResponses.length));
 				ChatbotMain.print(jibberishResponses[rnd]);
@@ -381,5 +363,35 @@ public class ChatbotBen implements Topic
 			}
 		}
 		return false;
+	}
+	public void findAlreadyCheck()
+	{
+		ChatbotMain.print("So far, you have:");
+		this.alreadyCheck = true;
+		
+		boolean foundAnything = false;
+		for (int i = 0; i < finishedItems.length; i += 1)
+		{
+			try
+			{
+				ChatbotMain.print(finishedItems[i]);
+				foundAnything = true;
+			}
+			catch (Exception e)
+			{
+				
+			}
+		}
+		if (!foundAnything)
+		{
+			ChatbotMain.print("...Nothing. You better get going!");
+			this.normalResponse = false;
+		}
+		this.jibberish = false;
+		this.checkFinish = true;
+	}
+	public void storeFinish()
+	{
+		
 	}
 }
