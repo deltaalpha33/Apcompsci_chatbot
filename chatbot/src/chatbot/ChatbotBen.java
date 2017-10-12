@@ -104,7 +104,29 @@ public class ChatbotBen implements Topic
 			}
 			if (detectAlreadyCheck(response.toLowerCase()))
 			{
-				this.findAlreadyCheck();
+				ChatbotMain.print("So far, you have:");
+				this.alreadyCheck = true;
+				
+				boolean foundAnything = false;
+				for (int i = 0; i < finishedItems.length; i += 1)
+				{
+					try
+					{
+						ChatbotMain.print(finishedItems[i]);
+						foundAnything = true;
+					}
+					catch (Exception e)
+					{
+						
+					}
+				}
+				if (!foundAnything)
+				{
+					ChatbotMain.print("...Nothing. You better get going!");
+					this.normalResponse = false;
+				}
+				this.jibberish = false;
+				this.checkFinish = true;
 			}
 			if (typeOfFinish(response.toLowerCase()).length() > 0)
 			{
