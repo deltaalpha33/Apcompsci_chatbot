@@ -1,6 +1,7 @@
 package chatbot;
 
 import java.util.Arrays;
+import java.lang.Thread;
 
 public class ChatbotDimitris implements Topic {
 	private String[] greetings = {"hi", "hello"};
@@ -10,8 +11,7 @@ public class ChatbotDimitris implements Topic {
 	private String response = "";
 	private boolean finished = false;
 	private Chatbot chatbot;
-	private int annoyance = 0;
-	private int anger = 0;
+	private int unCooperative = 0;
 	
 	private Ingredient[] ingredients= { new Ingredient("garlic", (float)0.30),
 										new Ingredient("onion", (float)0.30),
@@ -92,6 +92,20 @@ public class ChatbotDimitris implements Topic {
 					}
 					else {
 						ChatbotMain.print("if you do not want to make a new food then select one of the default ones" + this.getNameString(this.foods));
+						this.unCooperative ++;
+						if(this.unCooperative == 2) {
+							ChatbotMain.print("im going to stop helping you soon");
+						}
+						if(this.unCooperative == 5) {
+							ChatbotMain.print("I need some time to cool off");
+							try {
+								Thread.sleep(4000);
+							}
+							catch(Exception e){
+								
+							}
+							unCooperative = 0;
+						}
 					}
 					
 				
