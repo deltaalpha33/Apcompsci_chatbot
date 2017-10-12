@@ -21,6 +21,7 @@ public class ChatbotDimitris implements Topic {
 										new Ingredient("beef", (float)0.30),
 										new Ingredient("lettuce", (float)0.30),
 										new Ingredient("pasta", (float)0.30)};
+	private KitchenUtensil[] knownUtensils = {};
 	private Food[] foods = { };
 	private Food[] selectedFoods = {};
 	
@@ -54,7 +55,6 @@ public class ChatbotDimitris implements Topic {
 							
 							if(i == this.response.length() || this.response.charAt(i) == ',') { //short circuits operator
 								int ingredientIndex = this.extractNameable(this.ingredients, currentString);
-								ChatbotMain.print(currentString);
 								if(ingredientIndex == -1) {
 									ChatbotMain.print("How much does " + currentString + " cost?");
 									String tempCost = ChatbotMain.getInput();
@@ -75,6 +75,30 @@ public class ChatbotDimitris implements Topic {
 								}
 								else {
 									this.addIngredient(this.ingredients[ingredientIndex], newFood); //ingredient already exists
+								}
+								ChatbotMain.print(currentString + " added to " + newFood.getName());
+								currentString = "";
+
+							}
+							else {
+								currentString+= this.response.charAt(i);
+							}
+							
+							
+						}
+						ChatbotMain.print("Nessisary Utensils (separate with commas):");
+						this.response = ChatbotMain.getInput();
+						currentString = "";
+						for(int i = 0; i <= this.response.length(); i++) {
+							
+							if(i == this.response.length() || this.response.charAt(i) == ',') { //short circuits operator
+								int utensilIndex = this.extractNameable(this.knownUtensils, currentString);
+								if(utensilIndex == -1) {
+	
+									this.addUtensil(new KitchenUtensil(currentString), newFood);
+								}
+								else {
+									this.addUtensil(this.knownUtensils[utensilIndex], newFood); //utensils already exists
 								}
 								ChatbotMain.print(currentString + " added to " + newFood.getName());
 								currentString = "";
@@ -159,6 +183,11 @@ public class ChatbotDimitris implements Topic {
 		Ingredient[] addArray = Arrays.copyOf(food.getIngredients(),food.getIngredients().length+1);
 		addArray[addArray.length-1] = ingredient;
 		food.setIngredients(addArray);
+	}
+	public void addUtensil(KitchenUtensil utensil, Food food) {
+		KitchenUtensil[] addArray = Arrays.copyOf(food.getCookingTools(),food.getCookingTools().length+1);
+		addArray[addArray.length-1] = utensil;
+		food.setCookingTools(addArray);
 	}
 	
 	public String getNameString(Nameable[] nameArray) {
