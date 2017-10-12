@@ -45,7 +45,7 @@ public class Chatbot {
 		this.setFoodList(tempflist);
 		ben = new ChatbotBen(this);
 		dimitris = new ChatbotDimitris(this);
-		achilles = new ChatbotAchilles();
+		achilles = new ChatbotAchilles(this);
 		username = "Unknown User";
 	}
 	
