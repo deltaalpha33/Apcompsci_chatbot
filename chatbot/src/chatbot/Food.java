@@ -2,8 +2,8 @@ package chatbot;
 
 public class Food implements Nameable{
 	private String name;
-	private Ingredient[] ingredients;
-	private KitchenUtensil[] cookingTools;
+	private Ingredient[] ingredients = {};
+	private KitchenUtensil[] cookingTools = {};
 	
 	public Food() {
 		//empty constructor for creating Food manually

@@ -7,10 +7,11 @@ public class ChatbotDimitris implements Topic {
 	private String[] triggerWords = {"choose", "select", "food"};
 	private String[] finishedKeywords = {"done", "finished"};
 	private String[] affirmativeKeywords = {"yes", "yeah"};
-	private String[] needKeywords = {"need", "want", "would like"};
 	private String response = "";
 	private boolean finished = false;
 	private Chatbot chatbot;
+	private int annoyance = 0;
+	private int anger = 0;
 	
 	private Ingredient[] ingredients= { new Ingredient("garlic", (float)0.30),
 										new Ingredient("onion", (float)0.30),
@@ -32,38 +33,68 @@ public class ChatbotDimitris implements Topic {
 		while(!this.finished) {
 			
 			//Select Foods
-			ChatbotMain.print("What food(s) would you like to select?");
+			ChatbotMain.print("What food would you like to select?");
 			this.response = ChatbotMain.getInput();
-			int foodIndex = 0;
-			for(int i = foodIndex; i < this.response.length(); i = foodIndex) {
-				foodIndex = this.extractNameable((Nameable[])this.foods, this.response, i);
-				if(foodIndex == -1) {
+				int foodIndex = this.extractNameable(this.foods, this.response);
+				if(foodIndex != -1) {
+					this.addSelectedFood(foodIndex);
+				}
+				else{
+					String foodName = this.response;
 					ChatbotMain.print("Food was not found, do you wish to add it?");
 					this.response = ChatbotMain.getInput();
 					if(this.findKeywords(this.affirmativeKeywords)) {
 						Food newFood = new Food();
-						ChatbotMain.print("Food Name:");
-						newFood.setName(ChatbotMain.getInput());
+						newFood.setName(foodName);
 						
 						ChatbotMain.print("Nessisary Ingredients (separate with commas):");
 						this.response = ChatbotMain.getInput();
-						for(int wordStart = 0, j = 0; i <= this.response.length(); j++) {
-							if(i == this.response.length()-1 || this.response.charAt(i) == ',') //short curcuits operator
-								ChatbotMain.print("How much does it cost?");
-								float ingredientCost = Float.parseFloat(ChatbotMain.getInput());
-								this.addIngredient(new Ingredient(this.response.substring(wordStart, i), ingredientCost), newFood);
-								wordStart = i;
+						String currentString = "";
+						for(int i = 0; i <= this.response.length(); i++) {
+							
+							if(i == this.response.length() || this.response.charAt(i) == ',') { //short circuits operator
+								int ingredientIndex = this.extractNameable(this.ingredients, currentString);
+								ChatbotMain.print(currentString);
+								if(ingredientIndex == -1) {
+									ChatbotMain.print("How much does " + currentString + " cost?");
+									String tempCost = ChatbotMain.getInput();
+									if(tempCost.equals("")) {
+										ChatbotMain.print("ha ha, very funny");
+										tempCost = "100.00";
+									}
+									float ingredientCost;
+									try {
+										ingredientCost = Float.parseFloat(tempCost);
+									}
+									catch(Exception e){
+										ChatbotMain.print("because you are being difficult, the cost is now 100.00");
+										ingredientCost = (float)100.00;
+									}
+										
+									this.addIngredient(new Ingredient(currentString, ingredientCost), newFood);
+								}
+								else {
+									this.addIngredient(this.ingredients[ingredientIndex], newFood); //ingredient already exists
+								}
+								ChatbotMain.print(currentString + " added to " + newFood.getName());
+								currentString = "";
+
+							}
+							else {
+								currentString+= this.response.charAt(i);
+							}
+							
 							
 						}
-						newFood.setIngredients(ingredients);
 						
+						this.addSelectedFood(newFood);
 						
 					}
+					else {
+						ChatbotMain.print("if you do not want to make a new food then select one of the default ones" + this.getNameString(this.foods));
+					}
 					
-					break;
-				}
-				this.addSelectedFood(foodIndex);
-				ChatbotMain.print(this.selectedFoods.toString());
+				
 				
 			}
 			
@@ -75,6 +106,7 @@ public class ChatbotDimitris implements Topic {
 		}
 		ChatbotMain.print("YOU HAVE SELECTED ALL YOUR INGREDIENTS :)");
 		this.chatbot.setFoodSelected(true);
+		this.chatbot.setFoodList(this.selectedFoods);
 	}
 	
 	public boolean isTriggered(String response) {
@@ -91,9 +123,9 @@ public class ChatbotDimitris implements Topic {
 		return false;
 	}
 	
-	public int extractNameable(Nameable[] nameableList, String str, int startPos) {
-		for(int i = 0; i < chatbot.getFoodList().length; i++) {
-			if(ChatbotMain.keywordIsIsolated(startPos, nameableList[i].getName(), str)){
+	public int extractNameable(Nameable[] nameableList, String str) {
+		for(int i = 0; i < nameableList.length; i++) {
+			if(nameableList[i].getName().equals(str.toLowerCase())){
 				return i;
 			}
 		}
@@ -102,13 +134,25 @@ public class ChatbotDimitris implements Topic {
 	
 	public void addSelectedFood(int foodIndex) {
 		this.selectedFoods = Arrays.copyOf(this.selectedFoods,this.selectedFoods.length+1);
-		this.selectedFoods[this.selectedFoods.length] = this.foods[foodIndex];
+		this.selectedFoods[this.selectedFoods.length-1] = this.foods[foodIndex];
+	}
+	public void addSelectedFood(Food newFood) {
+		this.selectedFoods = Arrays.copyOf(this.selectedFoods,this.selectedFoods.length+1);
+		this.selectedFoods[this.selectedFoods.length-1] = newFood;
 	}
 	
 	public void addIngredient(Ingredient ingredient, Food food) {
 		Ingredient[] addArray = Arrays.copyOf(food.getIngredients(),food.getIngredients().length+1);
-		addArray[addArray.length] = ingredient;
+		addArray[addArray.length-1] = ingredient;
 		food.setIngredients(addArray);
+	}
+	
+	public String getNameString(Nameable[] nameArray) {
+		String temp = "";
+		for(int i = 0; i < nameArray.length; i++) {
+			temp+= nameArray[i].getName();
+		}
+		return temp;
 	}
 	
 
