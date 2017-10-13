@@ -13,6 +13,7 @@ public class ChatbotDimitris implements Topic {
 	private Chatbot chatbot;
 	private int unCooperative = 0;
 	private int redundant = 0;
+	private boolean insulted = false;
 	
 	private Ingredient[] ingredients= { new Ingredient("garlic", (float)0.30),
 										new Ingredient("onion", (float)0.30),
@@ -47,6 +48,15 @@ public class ChatbotDimitris implements Topic {
 			//Select Foods
 			ChatbotMain.print("What food would you like to select?");
 			this.response = ChatbotMain.getInput();
+			if(this.extractNameable(this.selectedFoods, this.response) != -1) {
+				if(this.redundant > 2) {
+					ChatbotMain.print("it appears that all usefull conversation is over, you will have to ask nicely to continue this conversation");
+					return; //exit if they are repeating themselves, they will have to say please inorder to start the conversation agian
+				}
+				this.redundant ++;
+				ChatbotMain.print("food already selectd");
+				continue;
+			}
 				int foodIndex = this.extractNameable(this.foods, this.response);
 				if(foodIndex != -1) {
 					this.addSelectedFood(foodIndex);
@@ -162,7 +172,25 @@ public class ChatbotDimitris implements Topic {
 	
 	public boolean isTriggered(String response) {
 		this.response = response;
-		return this.findKeywords(this.greetings) || this.findKeywords(this.triggerWords);	
+		if(this.findKeywords(this.greetings) || this.findKeywords(this.triggerWords)) {
+			if(!this.insulted) {
+				return true;
+			}
+			if(this.insulted && ChatbotMain.findKeyword(this.response, "please", 0) > -1) {
+				this.insulted = false;
+				this.redundant = 0;
+				ChatbotMain.print("you have been forgiven");
+				return true;
+			
+			}
+			else {
+				return false;
+			}
+
+		}
+		else {
+			return false;
+		}
 	}
 	
 	public boolean findKeywords(String[] keywords) {
