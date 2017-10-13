@@ -12,6 +12,7 @@ public class ChatbotDimitris implements Topic {
 	private boolean finished = false;
 	private Chatbot chatbot;
 	private int unCooperative = 0;
+	private int redundant = 0;
 	
 	private Ingredient[] ingredients= { new Ingredient("garlic", (float)0.30),
 										new Ingredient("onion", (float)0.30),
@@ -30,6 +31,16 @@ public class ChatbotDimitris implements Topic {
 	}
 	
 	public void talk(String response) {
+		if(this.chatbot.isFoodSelected() && !this.chatbot.getAchilles().isTriggered(response) && !this.chatbot.getBen().isTriggered(response)) { //handle overlapping keywords
+			if(this.redundant > 1) {
+				ChatbotMain.print("really??");
+			}
+			else {
+				ChatbotMain.print("you have already selected your foods");
+				this.redundant ++;
+			}
+			return; //exit because there is no work to be done
+		}
 		
 		while(!this.finished) {
 			
@@ -60,7 +71,7 @@ public class ChatbotDimitris implements Topic {
 									String tempCost = ChatbotMain.getInput();
 									if(tempCost.equals("")) {
 										ChatbotMain.print("ha ha, very funny");
-										tempCost = "100.00";
+										this.unCooperative ++;
 									}
 									float ingredientCost;
 									try {
@@ -94,8 +105,11 @@ public class ChatbotDimitris implements Topic {
 							if(i == this.response.length() || this.response.charAt(i) == ',') { //short circuits operator
 								int utensilIndex = this.extractNameable(this.knownUtensils, currentString);
 								if(utensilIndex == -1) {
-	
-									this.addUtensil(new KitchenUtensil(currentString), newFood);
+									ChatbotMain.print("what do you do with " + currentString + "?");
+									String action = ChatbotMain.getInput();
+									KitchenUtensil tempUtensil = new KitchenUtensil(currentString);
+									tempUtensil.setSpecialAction(action);
+									this.addUtensil(tempUtensil, newFood);
 								}
 								else {
 									this.addUtensil(this.knownUtensils[utensilIndex], newFood); //utensils already exists
@@ -115,12 +129,11 @@ public class ChatbotDimitris implements Topic {
 						
 					}
 					else {
-						ChatbotMain.print("if you do not want to make a new food then select one of the default ones" + this.getNameString(this.foods));
 						this.unCooperative ++;
-						if(this.unCooperative == 2) {
+						if(this.unCooperative  == 2) {
 							ChatbotMain.print("im going to stop helping you soon");
 						}
-						if(this.unCooperative == 5) {
+						if(this.unCooperative > 2) {
 							ChatbotMain.print("I need some time to cool off");
 							try {
 								Thread.sleep(4000);
@@ -142,7 +155,7 @@ public class ChatbotDimitris implements Topic {
 			
 			this.finished = this.findKeywords(this.finishedKeywords) || this.findKeywords(this.affirmativeKeywords);
 		}
-		ChatbotMain.print("YOU HAVE SELECTED ALL YOUR INGREDIENTS :)");
+		ChatbotMain.print("you have selected all of your ingredients :)");
 		this.chatbot.setFoodSelected(true);
 		this.chatbot.setFoodList(this.selectedFoods);
 	}
